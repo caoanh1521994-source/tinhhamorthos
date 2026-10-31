@@ -2,17 +2,17 @@
 window.SHIP3D = (function () {
   if (!window.THREE) return null;
   const T = THREE;
-  const NAME = { train: 'Mô phỏng', lab: 'Tách lớp', ch1: 'K1 · Động cơ', ch2: 'K2 · Trung tuyến', ch3: 'K3 · Quan sát', ch4: 'K4 · Tiếp tuyến', ch5: 'K5 · Đường kính' };
-  const SHORT = { train: 'MP', lab: 'TL', ch1: 'K1', ch2: 'K2', ch3: 'K3', ch4: 'K4', ch5: 'K5' };
-  const COL = { train: 0xff4f9a, ch1: 0xff8a3d, ch2: 0x3fe0c5, ch3: 0xffc24d, ch4: 0x4fb4ff, ch5: 0xb26bff, lab: 0x7dffb0 };
+  const NAME = { train: 'Mô phỏng', lab: 'Tách lớp', ch1: 'K1 · Động cơ', ch2: 'K2 · Trung tuyến', ch3: 'K3 · Quan sát', ch4: 'K4 · Tiếp tuyến', ch5: 'K5 · Đường kính', tk: 'Xưởng Thiết Kế' };
+  const SHORT = { train: 'MP', lab: 'TL', ch1: 'K1', ch2: 'K2', ch3: 'K3', ch4: 'K4', ch5: 'K5', tk: 'TK' };
+  const COL = { train: 0xff4f9a, ch1: 0xff8a3d, ch2: 0x3fe0c5, ch3: 0xffc24d, ch4: 0x4fb4ff, ch5: 0xb26bff, lab: 0x7dffb0, tk: 0x6fe3f5 };
   const RED = 0xff2a4a, DIM = 0x3c4258;
   // vị trí nhãn so với điểm neo (px trên khung rộng 980)
-  const OFF = { train: [80, -90], ch1: [-110, -40], ch2: [-20, 140], ch3: [90, -120], ch4: [-110, 70], ch5: [-40, -150], lab: [150, 100] };
+  const OFF = { train: [80, -90], ch1: [-120, 40], ch2: [-20, 140], ch3: [90, -120], ch4: [-110, 70], ch5: [-40, -150], lab: [150, 100], tk: [-250, -10] };
   let R = null, scene, cam, ship, Z = {}, flames = [], spin = [], stars;
   let host = null, labs = {}, lines = {}, svg, onPick = null, hover = null, raf = 0, failed = false;
   let rotY = -0.62, rotX = 0.2, tY = -0.62, tX = 0.2, drag = null, lastTouch = -99;
   const t0 = performance.now(), now = () => (performance.now() - t0) / 1000;
-  const ray = new T.Raycaster(), mv = new T.Vector2();
+  const ray = new T.Raycaster(), mv = new T.Vector2(); ray.params.Line.threshold = 0.06;
 
   // ---------- vật liệu
   let M;
@@ -45,7 +45,7 @@ window.SHIP3D = (function () {
   function build() {
     mats();
     ship = new T.Group();
-    ['train', 'ch1', 'ch2', 'ch3', 'ch4', 'ch5', 'lab'].forEach(k => { Z[k] = { g: new T.Group(), acc: [], anchor: new T.Vector3(), st: 'off' }; ship.add(Z[k].g); });
+    ['train', 'ch1', 'ch2', 'ch3', 'ch4', 'ch5', 'lab', 'tk'].forEach(k => { Z[k] = { g: new T.Group(), acc: [], anchor: new T.Vector3(), st: 'off' }; ship.add(Z[k].g); });
     // --- thân chính (không phải khoang)
     const H = new T.Group(); ship.add(H);
     H.add(loft([{ x: -4.0, w: 0.95, h: 0.62 }, { x: -3.4, w: 1.25, h: 0.88 }, { x: -1.5, w: 1.32, h: 0.92 }, { x: 0.6, w: 1.12, h: 0.82 }, { x: 2.0, w: 0.8, h: 0.6 }], M.hull));
@@ -149,6 +149,25 @@ window.SHIP3D = (function () {
       [-1.8, -1.2, -0.6].forEach(x => [1, -1].forEach(s => G.add(mesh(box(0.22, 0.12, 0.04), a, [x, -1.08, s * 0.38]))));
       G.add(mesh(new T.TorusGeometry(0.38, 0.03, 6, 20), a, [-2.1, -1.12, 0], [0, Math.PI / 2, 0]));
       Z.lab.anchor.set(-1.0, -1.55, 0.3);
+    }
+    // --- Xưởng Thiết Kế: máy chiếu hologram bản vẽ ở đuôi tàu
+    {
+      const G = Z.tk.g, a = acc('tk');
+      G.add(mesh(new T.CylinderGeometry(0.2, 0.28, 0.16, 10), M.plate, [-3.2, 1.06, 0]));
+      G.add(mesh(new T.TorusGeometry(0.2, 0.035, 6, 20), a, [-3.2, 1.15, 0], [Math.PI / 2, 0, 0]));
+      const hm = new T.MeshBasicMaterial({ color: 0x6fe3f5, transparent: true, opacity: 0.12, blending: T.AdditiveBlending, depthWrite: false, side: T.DoubleSide, toneMapped: false });
+      const beam = mesh(new T.ConeGeometry(0.62, 0.75, 20, 1, true), hm, [-3.2, 1.55, 0], [Math.PI, 0, 0]); beam.raycast = () => {}; G.add(beam); Z.tk.beam = hm;
+      const holo = new T.Group(); holo.position.set(-3.2, 1.98, 0); holo.scale.setScalar(1.25); G.add(holo);
+      const lm = new T.LineBasicMaterial({ color: 0x6fe3f5, transparent: true, opacity: 0.95, toneMapped: false }); Z.tk.lines = lm;
+      const circ = []; for (let i = 0; i <= 48; i++) { const t = i / 48 * Math.PI * 2; circ.push(new T.Vector3(Math.cos(t) * 0.42, Math.sin(t) * 0.42, 0)); }
+      holo.add(new T.Line(new T.BufferGeometry().setFromPoints(circ), lm));
+      const A = new T.Vector3(-0.42, 0, 0), B = new T.Vector3(0.42, 0, 0), C = new T.Vector3(Math.cos(1.1) * 0.42, Math.sin(1.1) * 0.42, 0), H = new T.Vector3(C.x, 0, 0);
+      holo.add(new T.LineLoop(new T.BufferGeometry().setFromPoints([A, B, C]), lm));
+      holo.add(new T.LineSegments(new T.BufferGeometry().setFromPoints([C, H]), new T.LineDashedMaterial({ color: 0xffb547, dashSize: 0.04, gapSize: 0.03, toneMapped: false })).computeLineDistances());
+      [A, B, C, H].forEach(p => holo.add(mesh(new T.SphereGeometry(0.03, 6, 4), a, [p.x, p.y, p.z])));
+      holo.add(mesh(new T.BoxGeometry(0.95, 0.95, 0.002), hm, [0, 0, -0.01]));
+      spin.push({ o: holo, ax: 'y', v: 0.9 });
+      Z.tk.anchor.set(-3.75, 1.98, 0);
     }
     Object.keys(Z).forEach(k => Z[k].g.traverse(o => { o.userData.k = k; }));
     // tia lửa cho khoang hỏng

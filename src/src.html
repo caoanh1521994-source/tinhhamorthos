@@ -260,6 +260,50 @@ svg .float{animation:hover 3s ease-in-out infinite}
 @keyframes boom{from{transform:translate(0,0) scale(1);opacity:1}to{transform:translate(var(--dx),var(--dy)) scale(.3);opacity:0}}
 .rocket{width:64px;height:64px;justify-self:center;animation:lift 1.6s ease-in-out infinite alternate}
 @keyframes lift{to{transform:translateY(-8px)}}
+
+/* Xưởng thiết kế */
+.tktabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:14px 0 12px}
+.tktab{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;padding:10px 12px;border-radius:8px;border:1px solid var(--line);background:var(--panel);cursor:pointer;color:inherit;font:inherit}
+.tktab .id{font-family:var(--f-display);font-weight:700;font-size:13px;color:var(--holo)}.tktab .nm{font-weight:700}.tktab .sk{font-size:12px;color:var(--muted)}
+.tktab[aria-selected="true"]{border-color:var(--holo);box-shadow:0 0 0 1px var(--holo),0 0 18px -6px var(--holo)}
+.tkmain{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:14px;align-items:start}
+.tkstage{background:#0a1736;border:1px solid #23408a;border-radius:10px;overflow:hidden;position:sticky;top:64px}
+.tkhead{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;padding:8px 12px;border-bottom:1px solid #23408a;font-size:13px}.tkhead span{color:#8ea6d8;font-size:12px}
+svg.board{display:block;width:100%;height:auto;touch-action:none;user-select:none;background:radial-gradient(ellipse at 50% 40%,#10265a,#0a1736 75%)}
+.board .g{stroke:#18336f;stroke-width:1;vector-effect:non-scaling-stroke}
+.board .o{fill:none;stroke:#d6e6ff;stroke-width:1.7;vector-effect:non-scaling-stroke;stroke-linecap:round}
+.board .o.aux{stroke:#5d7bb8;stroke-dasharray:5 4;stroke-width:1.2}
+.board .o.amb{stroke:#ffb547;stroke-width:2.6}.board .o.acc{stroke:var(--holo);stroke-width:2.6}
+.board .o.new{stroke:#7dffb0;stroke-width:3;filter:drop-shadow(0 0 3px #7dffb0)}.board .o.new.aux{stroke-width:1.6}.board .o.new.amb{stroke:#ffb547}
+.board .trace{fill:none;stroke:#ffb547;stroke-opacity:.35;stroke-width:1;vector-effect:non-scaling-stroke}
+.board .fill{fill:rgba(255,181,71,.18);stroke:none}
+.board .pt{fill:#d6e6ff}.board .pt.new{fill:#7dffb0}
+.board .drag{fill:#0a1736;stroke:var(--holo);stroke-width:2.4;vector-effect:non-scaling-stroke;cursor:grab}.board .halo{fill:var(--holo);opacity:.16;cursor:grab}
+.board text{font-family:"Noto Serif","Times New Roman",serif;font-style:italic;fill:#e8edfb;paint-order:stroke;stroke:#0a1736;stroke-linejoin:round}.board text.new{fill:#7dffb0}
+.tkctl{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:8px 12px;border-top:1px solid #23408a;font-size:13px}.tkctl input[type=range]{vertical-align:middle;accent-color:var(--holo)}
+.readouts{display:flex;flex-wrap:wrap;gap:6px;padding:8px 12px 12px}
+.chip{display:inline-flex;gap:6px;align-items:baseline;border:1px solid #2b4a8f;border-radius:999px;padding:3px 10px;font-size:12.5px;background:#0d1d44}.chip b{font-variant-numeric:tabular-nums}
+.chip.ok{border-color:#4dffb0}.chip.ok b{color:#4dffb0}.chip.warn{border-color:#ff6b7a}.chip.warn b{color:#ff6b7a}
+.tkpanel{display:grid;gap:12px}
+.tkcard{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.tkcard.de p{margin:0 0 6px;line-height:1.55}.tkcard.de .src{color:var(--muted);font-size:12.5px;margin:0}
+.tkdots{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}.tkdots span{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:700;border:1px solid var(--line);color:var(--muted)}
+.tkdots .done{background:#4dffb0;border-color:#4dffb0;color:#06281a}.tkdots .cur{border-color:var(--holo);color:var(--holo);box-shadow:0 0 10px -2px var(--holo)}
+.tkch{display:grid;gap:8px}
+.tkopt{display:flex;gap:10px;align-items:flex-start;text-align:left;padding:10px 12px;border-radius:8px;border:1px solid var(--line);background:rgba(111,227,245,.04);color:inherit;font:inherit;cursor:pointer;line-height:1.45}
+.tkopt:hover,.tkopt:focus-visible{border-color:var(--holo);background:rgba(111,227,245,.1)}
+.tkopt .k{flex:none;width:24px;height:24px;border-radius:5px;display:grid;place-items:center;font-family:var(--f-display);font-weight:700;font-size:13px;background:#1a2a5c;color:var(--holo)}
+.tkfb{margin:10px 0 0;padding:8px 10px;border-left:3px solid #ff6b7a;background:rgba(255,107,122,.08);border-radius:4px;font-size:13.5px;line-height:1.5}
+.tkqa{border-top:1px solid var(--line);padding:8px 0}.tkqa p{margin:0 0 4px}.tkqa summary{cursor:pointer;color:var(--holo);font-size:13.5px}.tkqa details p{color:var(--muted);margin-top:6px}
+.tklg{border-top:1px solid var(--line);padding:8px 0}.tklg summary{cursor:pointer;font-weight:700;display:flex;gap:8px;align-items:center}
+.tklg summary .n{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:#4dffb0;color:#06281a;font-size:12px;flex:none}
+.tklg .why{color:var(--muted);margin:6px 0;font-size:13.5px;line-height:1.5}.tklg .note{font-size:13px;border-left:3px solid #ffb547;padding:6px 10px;background:rgba(255,181,71,.08);border-radius:4px}
+.tklg ol,.tklg ul{margin:6px 0;padding-left:20px;font-size:13.5px;line-height:1.55}.tklg li{margin:3px 0}
+.cmds{list-style:none;padding-left:0!important}.cmds li{display:flex;gap:8px;align-items:center}.cmds code{flex:1;background:#0b1430;border:1px solid var(--line);border-radius:4px;padding:4px 8px;font-size:12.5px;overflow-x:auto}
+.cp{border:1px solid var(--line);background:var(--panel);color:inherit;border-radius:4px;padding:3px 8px;font-size:12px;cursor:pointer}
+.tool{font-weight:700;color:var(--holo);white-space:nowrap}.menu{font-weight:700;color:#ffb547}
+.sw{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden}.sw button{border:0;background:transparent;color:var(--muted);padding:4px 8px;font-size:12px;cursor:pointer}.sw button[aria-pressed="true"]{background:var(--holo);color:#04121a;font-weight:700}
+@media (max-width:860px){.tkmain{grid-template-columns:1fr}.tkstage{position:static}.tktabs{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 
@@ -292,6 +336,9 @@ svg .float{animation:hover 3s ease-in-out infinite}
 /*ART*/
 </script>
 <script>
+/*TK*/
+</script>
+<script>
 (() => {
 const G = window.GAME;
 const CARD = Object.fromEntries(G.cards.map(c => [c.id, c]));
@@ -302,10 +349,11 @@ const STARTER = G.cards.filter(c => 'GVKP'.includes(c.nhom)).map(c => c.id);
 const ZONES = [
   { key:'train', ten:'Phòng Mô Phỏng', sub:'Huấn luyện kỹ sư tập sự – làm quen Máy Lắp Ráp', ids:['2.4'] },
   { key:'lab', ten:'Phòng Thí Nghiệm Tách Lớp', sub:'8 ví dụ mẫu – bóc lớp hình để lấy 7 bản thiết kế huyền thoại (thẻ B)', ids:G.vdOrder },
+  { key:'tk', ten:'Xưởng Thiết Kế', sub:'Dựng bản vẽ hình động: chọn đúng lệnh dựng, kéo thử, quan sát', ids:TK.PROB.map(p=>p.id), tk:true },
   ...G.sectors.map(s => ({ key:'ch'+s.so, so:s.so, ten:['Khoang Động Cơ Vuông Góc','Trạm Trung Tuyến','Đài Quan Sát Nội Tiếp','Cánh Tiếp Tuyến','Lõi Đường Kính'][s.so-1], sub:s.ten, mota:s.mota, y:s.y, ids:s.bai })),
 ];
 const LS = 'orthos-v1';
-const fresh = () => ({ gems:150, cards:Object.fromEntries(STARTER.map(id=>[id,1])), done:{}, intro:false, snd:false });
+const fresh = () => ({ gems:150, cards:Object.fromEntries(STARTER.map(id=>[id,1])), done:{}, tk:{}, sw:'ggm', intro:false, snd:false });
 let S = fresh();
 const load = () => { try { const t = localStorage.getItem(LS); if (t) S = Object.assign(fresh(), JSON.parse(t)); } catch(e){} };
 const save = () => { try { localStorage.setItem(LS, JSON.stringify(S)); } catch(e){} };
@@ -359,36 +407,38 @@ const closeOv = () => { $('#ov').innerHTML=''; };
 
 // ---------- trạng thái mở khoá
 const trained = () => !!S.done['2.4'];
-function zoneOpen(z){ return z.key==='train' || trained(); }
+function zoneOpen(z){ return z.key==='train' || z.key==='tk' || trained(); }
+const zDone = z => z.tk ? z.ids.filter(id=>S.tk&&S.tk[id]).length : z.ids.filter(id=>S.done[id]).length;
+function openZone(k){ const z=ZONES.find(x=>x.key===k); if(!zoneOpen(z)){ toast('Hoàn thành Phòng Mô Phỏng trước'); return; } go(z.tk?{v:'design', i:0}:{v:'zone', z:z.key}); }
 function misOpen(id){ const m=MIS[id]; if(m.loai==='train') return true; if(!trained()) return false; if(m.loai==='lab'){ const k=G.vdOrder.indexOf(id); return k===0 || !!S.done[G.vdOrder[k-1]]; } return true; }
 const needCards = m => [...new Set(m.steps.flatMap(s=>s.codes))];
 
 // ---------- màn hình chính
 let VIEW = { v:'map' };
 function go(v){ VIEW=v; render(); window.scrollTo(0,0); }
-function render(){ hud(); const a=$('#app'); ({map:vMap, zone:vZone, cards:vCards, mis:vMis}[VIEW.v]||vMap)(a); }
+function render(){ hud(); dStop(); const a=$('#app'); ({map:vMap, zone:vZone, cards:vCards, mis:vMis, design:vDesign}[VIEW.v]||vMap)(a); }
 function vMap(a){
   const tot=G.missions.length, fixed=Object.keys(S.done).length;
-  const next=!trained()?'Bắt đầu ở <b>Phòng Mô Phỏng</b>: bấm vào mũi tàu (nhãn <b>Mô phỏng</b>).':fixed===tot?'Cả 42 mô-đun đã chạy. Tàu sẵn sàng tiếp tục hành trình!':'Bộ phận nháy đỏ, toé lửa là khoang còn hỏng – kéo để xoay tàu. Thẻ huyền thoại ở <b>Phòng Tách Lớp</b> giúp mở các khoang khó.';
+  const next=!trained()?'Bắt đầu ở <b>Phòng Mô Phỏng</b>: bấm vào mũi tàu (nhãn <b>Mô phỏng</b>). <b>Xưởng Thiết Kế</b> (máy chiếu hologram ở đuôi tàu) mở sẵn để bạn luyện dựng hình.':fixed===tot?'Cả 42 mô-đun đã chạy. Tàu sẵn sàng tiếp tục hành trình!':'Bộ phận nháy đỏ, toé lửa là khoang còn hỏng – kéo để xoay tàu. Thẻ huyền thoại ở <b>Phòng Tách Lớp</b> giúp mở các khoang khó. Muốn vẽ hình cho chuẩn? Ghé <b>Xưởng Thiết Kế</b>.';
   a.innerHTML = `
   <div class="row" style="margin-top:8px"><div><div class="eyebrow">Nhật ký sửa chữa · năm 2187</div><h1 style="font-size:clamp(24px,4vw,36px)">Khởi động lại Lõi Suy Luận</h1></div><span class="sp"></span><button class="btn sm" id="bStory">Xem lại cốt truyện</button></div>
   <div class="bar" style="max-width:420px;margin-top:8px"><i style="width:${fixed/tot*100}%"></i></div>
   <p class="muted" style="margin:4px 0 0;font-size:13px">${fixed}/${tot} mô-đun đã hoạt động</p>
   <div class="ship" style="margin-top:12px"><div class="ship3d" id="ship3d"></div></div>
   <div class="mascot">${botSVG('bigbot')}<p style="margin:0"><b style="color:var(--holo);font-family:var(--f-display)">PÔLYA-7</b><br>${next}</p></div>
-  <div class="zgrid">${ZONES.map(z=>{ const d=z.ids.filter(id=>S.done[id]).length; const op=zoneOpen(z); return `<button class="zcard ${op?'':'lock'}" data-zone="${z.key}" ${op?'':'aria-disabled="true"'}>
+  <div class="zgrid">${ZONES.map(z=>{ const d=zDone(z); const op=zoneOpen(z); return `<button class="zcard ${op?'':'lock'}" data-zone="${z.key}" ${op?'':'aria-disabled="true"'}>
       <span class="zicon">${ZICON[z.key]}</span>
       <span><b style="font-family:var(--f-display)">${z.ten}</b><br><span class="muted" style="font-size:12.5px">${esc(z.sub)}</span><span class="bar"><i style="width:${d/z.ids.length*100}%"></i></span></span>
       <span class="tag ${op?(d===z.ids.length?'done':''):'lock'}">${op?d+'/'+z.ids.length:'Khoá'}</span></button>`; }).join('')}</div>`;
-  a.querySelectorAll('[data-zone]').forEach(b=>b.onclick=()=>{ const z=ZONES.find(x=>x.key===b.dataset.zone); if(!zoneOpen(z)){ toast('Hoàn thành Phòng Mô Phỏng trước'); return;} go({v:'zone', z:z.key}); });
-  { const st={}; ZONES.forEach(z=>{ st[z.key]={ d:z.ids.filter(id=>S.done[id]).length, n:z.ids.length, open:zoneOpen(z) }; });
-    const pick=k=>{ const z=ZONES.find(x=>x.key===k); if(zoneOpen(z)) go({v:'zone', z:z.key}); else toast('Hoàn thành Phòng Mô Phỏng trước'); };
+  a.querySelectorAll('[data-zone]').forEach(b=>b.onclick=()=>openZone(b.dataset.zone));
+  { const st={}; ZONES.forEach(z=>{ st[z.key]={ d:zDone(z), n:z.ids.length, open:zoneOpen(z) }; });
+    const pick=k=>openZone(k);
     const el=$('#ship3d'); if(!(window.SHIP3D&&SHIP3D.mount(el, st, pick))){ el.className=''; el.innerHTML=shipSVG(); } }
-  a.querySelectorAll('.zone').forEach(g=>{ const f=()=>{ const z=ZONES.find(x=>x.key===g.dataset.k); if(zoneOpen(z)) go({v:'zone', z:z.key}); else toast('Hoàn thành Phòng Mô Phỏng trước'); }; g.onclick=f; g.onkeydown=e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); f(); } }; });
+  a.querySelectorAll('.zone').forEach(g=>{ g.onclick=()=>openZone(g.dataset.k); });
   $('#bStory').onclick=()=>story(0);
 }
 function shipSVG(){
-  const stat={}; ZONES.forEach(z=>{ stat[z.key]={ d:z.ids.filter(id=>S.done[id]).length, n:z.ids.length, open:zoneOpen(z) }; });
+  const stat={}; ZONES.forEach(z=>{ stat[z.key]={ d:zDone(z), n:z.ids.length, open:zoneOpen(z) }; });
   return shipArt(stat);
 }
 function vZone(a){
@@ -461,6 +511,98 @@ const STORY = [
 function story(i){
   overlay(`${SCENE[i]}<div class="story">${STORY[i]}</div><div class="row"><span class="muted">${i+1}/${STORY.length}</span><span class="sp"></span>${i<STORY.length-1?`<button class="btn pri" id="nx">Tiếp</button>`:`<button class="btn pri" id="nx">Vào tàu</button>`}</div>`);
   $('#nx').onclick=()=>{ if(i<STORY.length-1) story(i+1); else { S.intro=true; save(); closeOv(); render(); } };
+}
+
+// ---------- XƯỞNG THIẾT KẾ (dựng hình động)
+let DZ=null; window.__dz=()=>DZ;
+function dStop(){ if(DZ&&DZ.anim){ clearInterval(DZ.anim); DZ.anim=null; } }
+const shuf = a => { a=a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; };
+function dNew(i){ const pb=TK.PROB[i]; DZ={ i, pb, p:{...pb.init}, step:0, mist:0, phase:'build', cov:{}, tr:[], traceOn:false, anim:null, fb:'', open:0 }; dChoices(); }
+function dChoices(){ const pb=DZ.pb, n=DZ.step; if(n>=pb.steps.length) { DZ.ch=[]; return; }
+  const ch=[{k:'ok', i:n, t:pb.steps[n].ti}];
+  shuf(pb.steps.map((s,j)=>j).filter(j=>j>n)).slice(0,2).forEach(j=>ch.push({k:'early', i:j, t:pb.steps[j].ti}));
+  const pts=pb.objs.filter(o=>o.t==='pt'&&o.s===n+1&&!pb.drag[o.id]).map(o=>o.lab||o.id);
+  if(n>0&&pts.length) ch.push({k:'eye', t:`Đặt điểm ${pts.join(', ')} bằng mắt cho trông đúng chỗ`});
+  DZ.ch=shuf(ch); }
+function dMissing(j){ const pb=DZ.pb, made={}; pb.objs.forEach(o=>{ if(o.t==='pt'&&made[o.id]===undefined) made[o.id]=o.s; });
+  const refs=new Set(); pb.objs.filter(o=>o.s===j+1).forEach(o=>['a','b','c','v','p','q','thr'].forEach(k=>o[k]&&refs.add(o[k]))||(o.pts||[]).forEach(x=>refs.add(x)));
+  return [...refs].filter(id=>made[id]!==undefined&&made[id]>DZ.step&&made[id]<j+1).map(id=>{ const o=pb.objs.find(x=>x.t==='pt'&&x.id===id); return o.lab||id; }); }
+function vDesign(a){
+  if(!DZ||DZ.i!==VIEW.i) dNew(VIEW.i||0);
+  const pb=DZ.pb;
+  a.innerHTML=`<div class="row" style="margin-top:8px"><button class="btn sm" id="back">← Sơ đồ tàu</button></div>
+  <div style="margin-top:10px;display:grid;grid-template-columns:56px 1fr;gap:12px;align-items:center"><span class="zicon" style="width:56px;height:56px">${ZICON.tk}</span><div><div class="eyebrow">Xưởng thiết kế · bản vẽ hình động</div><h1 style="font-size:clamp(22px,3.4vw,32px);margin:2px 0 0">Dựng bản thiết kế trước khi lắp ráp</h1></div></div>
+  ${say('Linh kiện chỉ chạy khi bản vẽ chuẩn. Chọn <b>lệnh dựng tiếp theo</b> theo đúng thứ tự – điểm phụ thuộc phải dựng bằng lệnh, không đặt bằng mắt. Dựng xong, <b>kéo thử</b> điểm tự do: hình không vỡ là đạt.')}
+  <div class="tktabs" role="tablist">${TK.PROB.map((p,i)=>{ const s=S.tk&&S.tk[p.id]; return `<button class="tktab" role="tab" aria-selected="${i===DZ.i}" data-ti="${i}"><span class="id">Bài ${p.id}${s?' '+stars(s):''}</span><span class="nm">${p.ten}</span><span class="sk">${p.sk}</span></button>`; }).join('')}</div>
+  <div class="tkmain">
+    <section class="tkstage"><div class="tkhead"><b>Bản vẽ · Bài ${pb.id} ${pb.ten}</b><span>Kéo điểm có vòng rỗng · hình mới hiện màu xanh lá</span></div>
+      <svg class="board" id="tkb" role="img" aria-label="Bản vẽ của bài"></svg>
+      <div class="tkctl" id="tkctl"></div><div class="readouts" id="tkro"></div></section>
+    <section class="tkpanel"><div class="tkcard de">${pb.de}</div><div class="tkcard" id="tkplay"></div><div class="tkcard" id="tklog"></div></section>
+  </div>`;
+  $('#back').onclick=()=>go({v:'map'});
+  a.querySelectorAll('[data-ti]').forEach(b=>b.onclick=()=>{ dStop(); dNew(+b.dataset.ti); VIEW.i=+b.dataset.ti; vDesign(a); });
+  dBoard(); dPlay(); dLog(); dCtl();
+}
+function dBoard(){ const sv=$('#tkb'); if(!sv) return;
+  const rs=TK.draw(sv, DZ.pb, DZ.p, Math.max(1,DZ.step), DZ.tr, dDown, dKey);
+  if(!DZ.step) sv.querySelectorAll('.o,.pt,text,.drag,.halo').forEach(e=>e.style.opacity=.0);
+  const ro=$('#tkro'); ro.innerHTML = DZ.step ? (rs.length?rs.map(r=>`<span class="chip ${r.c||''}">${r.k} <b>${r.v}</b></span>`).join(''):'<span class="muted" style="font-size:13px">Số đo sẽ hiện ở các bước sau.</span>') : '<span class="muted" style="font-size:13px">Bản vẽ trống – chọn lệnh dựng đầu tiên.</span>';
+  const ts=$('#tslider'); if(ts){ ts.value=DZ.p.t; $('#tval').textContent=TK.fmt(DZ.p.t); } }
+function dCover(){ const pb=DZ.pb; Object.entries(pb.drag).forEach(([id,d])=>{ const v=DZ.p[d.key], c=DZ.cov[d.key]||[v,v]; DZ.cov[d.key]=[Math.min(c[0],v),Math.max(c[1],v)]; });
+  if(DZ.phase!=='test') return; const prog=dProg(); const b=$('#tkprog'); if(b){ b.style.width=Math.min(100,prog/0.4*100)+'%'; }
+  if(prog>=0.4){ DZ.phase='obs'; sOk(); toast('Hình không vỡ – bản thiết kế đạt chuẩn!'); dPlay(); } }
+function dProg(){ const pb=DZ.pb; return Math.max(0,...Object.values(pb.drag).map(d=>{ const c=DZ.cov[d.key]; return c?(c[1]-c[0])/(d.max-d.min):0; })); }
+function dAddTrace(){ if(!DZ.pb.trace||!DZ.traceOn||DZ.step<4) return; const s=TK.traceSeg(DZ.pb,DZ.p); if(s){ DZ.tr.push(s); if(DZ.tr.length>400) DZ.tr.shift(); } }
+function dDown(ev){ const id=ev.target.getAttribute('data-id'), sv=$('#tkb'); ev.preventDefault();
+  const mv=e=>{ if(!$('#tkb')) return up(); TK.dragTo($('#tkb'),DZ.pb,DZ.p,id,e); if(DZ.pb.trace&&id==='H') DZ.tr=[]; dAddTrace(); dBoard(); dCover(); };
+  const up=()=>{ window.removeEventListener('pointermove',mv); window.removeEventListener('pointerup',up); window.removeEventListener('pointercancel',up); if($('#tkb')) dBoard(); };
+  window.addEventListener('pointermove',mv); window.addEventListener('pointerup',up); window.addEventListener('pointercancel',up); }
+function dKey(ev){ const id=ev.target.getAttribute('data-id'), d=DZ.pb.drag[id], k={ArrowLeft:-1,ArrowDown:-1,ArrowRight:1,ArrowUp:1}[ev.key]; if(!k) return; ev.preventDefault();
+  const sv=d.kind==='arc'?1.5:d.kind==='seg'?.01:.05; DZ.p[d.key]=Math.max(d.min,Math.min(d.max,DZ.p[d.key]+k*sv)); dAddTrace(); dBoard(); dCover(); const ag=$('#tkb').querySelector(`.drag[data-id="${id}"]`); if(ag) ag.focus(); }
+function dCtl(){ const pb=DZ.pb, c=$('#tkctl'); let h='';
+  if(pb.slider&&DZ.step>=2){ const s=pb.slider; h+=`<label>${s.label} <input type="range" id="tslider" min="${s.min}" max="${s.max}" step="${s.step}" value="${DZ.p[s.key]}"> <b id="tval">${TK.fmt(DZ.p[s.key])}</b></label>`; }
+  if(pb.trace&&DZ.step>=4) h+=`<button class="btn sm" id="btTrace">${DZ.traceOn?'Tắt vết':'Bật vết'}</button><button class="btn sm" id="btAnim">${DZ.anim?'Dừng':'Cho E tự chạy'}</button><button class="btn sm" id="btClear">Xoá vết</button>`;
+  c.innerHTML=h; c.hidden=!h;
+  const ts=$('#tslider'); if(ts) ts.oninput=e=>{ DZ.p[pb.slider.key]=+e.target.value; dBoard(); dCover(); };
+  if($('#btTrace')){ $('#btTrace').onclick=()=>{ DZ.traceOn=!DZ.traceOn; dCtl(); dBoard(); };
+    $('#btAnim').onclick=()=>{ if(DZ.anim) dStop(); else { const d=pb.drag.E; let dir=1; DZ.traceOn=true; DZ.anim=setInterval(()=>{ if(!$('#tkb')){ dStop(); return; } DZ.p.e+=dir*.03; if(DZ.p.e>d.max){DZ.p.e=d.max;dir=-1} if(DZ.p.e<d.min){DZ.p.e=d.min;dir=1} dAddTrace(); dBoard(); dCover(); },30); } dCtl(); };
+    $('#btClear').onclick=()=>{ DZ.tr=[]; dBoard(); }; } }
+function dPlay(){ const pb=DZ.pb, N=pb.steps.length, box=$('#tkplay'), n=DZ.step;
+  const dots=`<div class="tkdots">${pb.steps.map((s,i)=>`<span class="${i<n?'done':i===n&&DZ.phase==='build'?'cur':''}">${i+1}</span>`).join('')}</div>`;
+  if(DZ.phase==='build'){
+    box.innerHTML=`<div class="row"><div class="eyebrow">Lệnh dựng ${n+1}/${N}</div><span class="sp"></span><span class="muted" style="font-size:12.5px">Lỗi: <b style="color:${DZ.mist?'var(--bad,#ff6b7a)':'inherit'}">${DZ.mist}</b></span></div>${dots}
+      <p style="margin:8px 0 10px"><b>Bước nào dựng được ngay bây giờ?</b></p>
+      <div class="tkch">${DZ.ch.map((c,i)=>`<button class="tkopt" data-c="${i}"><span class="k">${String.fromCharCode(65+i)}</span>${c.t}</button>`).join('')}</div>
+      ${DZ.fb?`<p class="tkfb">${DZ.fb}</p>`:''}`;
+    box.querySelectorAll('[data-c]').forEach(b=>b.onclick=()=>dPick(DZ.ch[+b.dataset.c]));
+  } else if(DZ.phase==='test'){
+    const names=Object.keys(pb.drag).join(', ')+(pb.slider?' (hoặc thanh trượt t)':'');
+    box.innerHTML=`${dots}<div class="eyebrow" style="margin-top:8px">Phép thử kéo</div><p style="margin:6px 0">Dựng xong! Giờ <b>kéo điểm tự do ${names}</b> thật xa trên bản vẽ. Hình không vỡ thì bản thiết kế mới đạt chuẩn.</p><div class="bar" style="margin-top:6px"><i id="tkprog" style="width:${Math.min(100,dProg()/0.4*100)}%"></i></div>`;
+  } else {
+    const first=!(S.tk&&S.tk[pb.id]), st=DZ.mist===0?3:DZ.mist<=2?2:1;
+    box.innerHTML=`${dots}<div class="eyebrow" style="margin-top:8px">Quan sát sau khi dựng xong</div>
+      ${pb.obs.map(([q,an])=>`<div class="tkqa"><p>${q}</p><details><summary>Xem điều em nên thấy</summary><p>${an}</p></details></div>`).join('')}
+      ${DZ.phase==='obs'?`<button class="btn pri" id="tkdone" style="margin-top:10px">Nhận bản thiết kế ${stars(st)}</button>`:`<div class="row" style="margin-top:10px"><span>Đã lưu bản thiết kế ${stars(S.tk[pb.id])}</span><span class="sp"></span>${DZ.i<TK.PROB.length-1?'<button class="btn pri" id="tknext">Bản vẽ tiếp theo →</button>':'<button class="btn" id="tkhome">Về sơ đồ tàu</button>'}</div>`}`;
+    const d=$('#tkdone'); if(d) d.onclick=()=>{ S.tk=S.tk||{}; const prev=S.tk[pb.id]||0; S.tk[pb.id]=Math.max(prev,st); const gain=first?10*st:5; S.gems+=gain; save(); hud(); sWin(); DZ.phase='done';
+      overlay(`<div class="eyebrow">Xưởng thiết kế</div><div class="big">BẢN THIẾT KẾ ĐẠT CHUẨN</div><p>Bài ${pb.id} · ${pb.ten} ${stars(st)}</p><p>+${gain} tinh thể${DZ.mist?` · ${DZ.mist} lần chọn sai lệnh`:' · không sai lệnh nào'}</p><div class="row"><span class="sp"></span><button class="btn pri" id="nx">Tiếp tục</button></div>`); $('#nx').onclick=()=>{ closeOv(); dPlay(); }; };
+    const nx=$('#tknext'); if(nx) nx.onclick=()=>{ VIEW.i=DZ.i+1; dNew(VIEW.i); render(); };
+    const hm=$('#tkhome'); if(hm) hm.onclick=()=>go({v:'map'});
+  } }
+function dPick(c){ const pb=DZ.pb;
+  if(c.k==='ok'){ DZ.step++; DZ.fb=''; DZ.open=DZ.step-1; sOk(); if(DZ.step>=pb.steps.length){ DZ.phase='test'; DZ.cov={}; dCover(); } dChoices(); dBoard(); dPlay(); dLog(); dCtl(); return; }
+  DZ.mist++; sBad();
+  if(c.k==='eye') DZ.fb='⚠ Điểm đặt bằng mắt sẽ lệch ngay khi kéo. Điểm phụ thuộc phải dựng bằng lệnh: đường vuông góc, giao điểm, trung điểm…';
+  else { const miss=dMissing(c.i); DZ.fb=`⚠ Chưa dựng được “${c.t}”: ${miss.length?'còn thiếu điểm <b>'+miss.join(', ')+'</b>.':'bước này cần các đối tượng của bước trước.'} Điểm nào phải có trước?`; }
+  dPlay(); }
+function dLog(){ const pb=DZ.pb, box=$('#tklog'), sw=S.sw||'ggm';
+  if(!DZ.step){ box.innerHTML=`<div class="eyebrow">Nhật ký dựng</div><p class="muted" style="margin:6px 0 0;font-size:13.5px">Mỗi bước dựng đúng sẽ hiện cách làm trên GeoGebra và Sketchpad để em tự dựng lại.</p>`; return; }
+  const body=st=>sw==='gg'?`<ul class="cmds">${st.gg.map(c=>`<li><code>${c}</code><button class="cp" type="button">Chép</button></li>`).join('')}</ul>`:`<ol class="gsp">${(sw==='ggm'?st.ggm:st.gsp).map(c=>`<li>${c}</li>`).join('')}</ol>`;
+  box.innerHTML=`<div class="row"><div class="eyebrow">Nhật ký dựng</div><span class="sp"></span><div class="sw" role="group" aria-label="Chọn phần mềm">${[['ggm','GeoGebra · chuột'],['gg','GeoGebra · lệnh'],['gsp','Sketchpad']].map(([k,t])=>`<button type="button" data-sw="${k}" aria-pressed="${sw===k}">${t}</button>`).join('')}</div></div>
+    ${pb.steps.slice(0,DZ.step).map((st,i)=>`<details class="tklg" ${i===DZ.open?'open':''}><summary><span class="n">${i+1}</span>${st.ti}</summary><p class="why">${st.why}</p>${body(st)}${st.note?`<p class="note">${st.note}</p>`:''}</details>`).join('')}`;
+  box.querySelectorAll('[data-sw]').forEach(b=>b.onclick=()=>{ S.sw=b.dataset.sw; save(); dLog(); });
+  box.querySelectorAll('details').forEach((d,i)=>d.ontoggle=()=>{ if(d.open) DZ.open=i; });
+  box.querySelectorAll('.cp').forEach(b=>b.onclick=()=>{ const t=b.parentElement.querySelector('code').textContent; try{ navigator.clipboard.writeText(t).then(()=>{ b.textContent='Đã chép'; setTimeout(()=>b.textContent='Chép',1400); }); }catch(e){} });
 }
 
 // ---------- NHIỆM VỤ
