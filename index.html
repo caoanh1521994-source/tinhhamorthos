@@ -304,6 +304,43 @@ svg.board{display:block;width:100%;height:auto;touch-action:none;user-select:non
 .tool{font-weight:700;color:var(--holo);white-space:nowrap}.menu{font-weight:700;color:#ffb547}
 .sw{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden}.sw button{border:0;background:transparent;color:var(--muted);padding:4px 8px;font-size:12px;cursor:pointer}.sw button[aria-pressed="true"]{background:var(--holo);color:#04121a;font-weight:700}
 @media (max-width:860px){.tkmain{grid-template-columns:1fr}.tkstage{position:static}.tktabs{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* pet */
+.card .art.pet{height:112px;background:radial-gradient(circle at 50% 60%,var(--c2),rgba(10,15,31,.55) 70%)}
+.card .art.pet svg{width:108px;height:108px}
+.card:hover .petbody{animation:hop .5s}
+.card .pn{font-size:11px;color:var(--c);font-family:var(--f-display);font-weight:600;letter-spacing:.02em}
+.card.miss{filter:none}.card.miss .art.pet{background:rgba(10,15,31,.7)}.card.miss .nm,.card.miss .ra,.card.miss .code{opacity:.5}
+.petsvg .petbody{transform-box:fill-box;transform-origin:50% 100%}
+.petsvg.st3 .petbody{animation:idle 2.6s ease-in-out infinite}
+@keyframes idle{50%{transform:translateY(-3px) scale(1.02,.98)}}
+@keyframes hop{40%{transform:translateY(-10px) scale(.96,1.05)}70%{transform:translateY(0) scale(1.06,.94)}}
+.pt-tw{transform-box:fill-box;transform-origin:center;animation:twk 1.8s ease-in-out infinite}
+.mini .mpet{display:inline-block;width:26px;height:26px;margin:-4px 4px -8px -4px;vertical-align:middle}.mini .mpet svg{width:26px;height:26px}
+.petpop{position:fixed;z-index:80;transform:translate(-50%,-100%);pointer-events:none;display:grid;justify-items:center;animation:pp 1.3s ease-out forwards}
+.petpop svg{width:96px;height:96px;filter:drop-shadow(0 0 12px var(--c))}
+.petpop b{font-family:var(--f-display);font-size:13px;background:rgba(10,15,31,.9);border:1px solid var(--c);border-radius:999px;padding:2px 10px;white-space:nowrap}
+.petpop .ring{position:absolute;top:30px;left:50%;width:70px;height:70px;margin-left:-35px;border-radius:50%;border:3px solid var(--c);animation:ring .7s ease-out forwards}
+@keyframes pp{0%{opacity:0;transform:translate(-50%,-60%) scale(.4)}20%{opacity:1;transform:translate(-50%,-110%) scale(1.1)}35%{transform:translate(-50%,-100%) scale(1)}80%{opacity:1}100%{opacity:0;transform:translate(-50%,-140%) scale(.9)}}
+@keyframes ring{from{transform:scale(.3);opacity:1}to{transform:scale(2.2);opacity:0}}
+.pcard{display:grid;grid-template-columns:110px 1fr;gap:12px;align-items:center;background:rgba(111,227,245,.05);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+.pcard .pbig svg{width:110px;height:110px}
+.catch{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin:6px 0}
+.cball{position:relative;width:150px;height:190px;display:grid;justify-items:center;align-content:start;padding-top:6px;border:1px solid var(--line);border-radius:10px;background:radial-gradient(circle at 50% 40%,color-mix(in srgb,var(--c) 30%,transparent),transparent 70%)}
+.cball .orb{position:absolute;top:36px;width:56px;height:56px;border-radius:50%;background:linear-gradient(#ff6b7a 0 46%,#1d2a5c 46% 54%,#f3f6ff 54%);border:3px solid #1d2a5c;box-shadow:0 0 18px var(--c);animation:orb 1s ease-in both}
+.cball .cpet{opacity:0;animation:out .5s ease-out both}.cball .cpet svg{width:110px;height:110px}
+.cball b,.cball small{opacity:0;animation:fadein .4s both;text-align:center;padding:0 6px}.cball b{font-family:var(--f-display);font-size:13.5px;color:var(--c)}.cball small{color:var(--muted);font-size:11.5px;line-height:1.3}
+@keyframes orb{0%{transform:translateY(-60px) scale(.6)}35%{transform:translateY(0) scale(1)}45%,65%{transform:rotate(-14deg)}55%,75%{transform:rotate(14deg)}90%{transform:scale(1.2);opacity:1}100%{transform:scale(0);opacity:0}}
+@keyframes out{from{opacity:0;transform:scale(.2) translateY(20px)}to{opacity:1;transform:none}}
+@keyframes fadein{to{opacity:1}}
+.mascot.withpet{grid-template-columns:80px 1fr auto}
+.buddy{display:flex;gap:8px;align-items:center;text-align:left;border:1px solid var(--line);background:rgba(10,15,31,.5);border-radius:10px;padding:6px 12px 6px 6px;cursor:pointer;color:inherit;font:inherit}
+.buddy:hover{border-color:var(--holo)}.buddy .bp svg{width:76px;height:76px;display:block}.buddy .bp .petbody{animation:idle 2.2s ease-in-out infinite}
+.buddy small{display:block;color:var(--muted);font-size:11.5px}.buddy b{display:block;font-family:var(--f-display);font-size:14px}
+.evopop{position:fixed;z-index:85;left:50%;top:70px;transform:translateX(-50%);pointer-events:none;text-align:center;background:rgba(10,15,40,.95);border:1px solid var(--holo);border-radius:14px;padding:10px 18px 14px;box-shadow:0 0 40px -6px var(--holo);animation:evp 3.2s ease both}.evopop b{font-family:var(--f-display);font-size:16px}
+@keyframes evp{0%{opacity:0;transform:translate(-50%,-20px) scale(.8)}10%,85%{opacity:1;transform:translate(-50%,0) scale(1)}100%{opacity:0;transform:translate(-50%,-10px)}}
+.evo{text-align:center}.evrow{display:flex;align-items:center;justify-content:center;gap:10px;margin:10px 0}.evrow svg{width:130px;height:130px}.evrow .old{opacity:.6;filter:grayscale(.4)}.evrow .new{animation:out .7s .2s both}.evrow .arr{font-size:28px;color:var(--holo)}
+@media (max-width:640px){.mascot.withpet{grid-template-columns:64px 1fr}.mascot.withpet .buddy{grid-column:1/-1}.cball{width:100%;max-width:220px}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 
@@ -1166,6 +1203,148 @@ return { PROB, draw, dragTo, traceSeg, fmt };
 
 </script>
 <script>
+// Pet tri thức – mỗi thẻ là một pet (thiết kế gốc, vẽ bằng SVG thủ tục)
+window.PETS = (function () {
+  const SP = {
+    G: { loai: 'Cáo', he: 'Hoả', c: '#ff7a85' }, V: { loai: 'Rùa', he: 'Thổ', c: '#3fd6c2' }, N: { loai: 'Mochi', he: 'Thuỷ', c: '#6aa8ff' },
+    T: { loai: 'Chim', he: 'Phong', c: '#ff9b57' }, S: { loai: 'Thỏ', he: 'Quang', c: '#ffc04d' }, P: { loai: 'Tắc kè', he: 'Mộc', c: '#7ee08a' },
+    Q: { loai: 'Cú', he: 'Băng', c: '#4fd2e6' }, K: { loai: 'Kỳ nhông', he: 'Ảo', c: '#a98bff' }, B: { loai: 'Thần long', he: 'Tinh tú', c: '#ffd27a' },
+  };
+  const TAG = {
+    G1: 'Nội Tiếp', G2: 'Nửa Tròn', G3: 'Tiếp Dây', G4: 'Phụ Bù', G5: 'So Le', G6: 'Cân Cân', G7: 'Tổng Ba', G8: 'Phân Giác',
+    V1: 'Hệ Thức', V2: 'Huyền Tâm', V3: 'Sin Cos', V4: 'Pytago', V5: 'Chữ Nhật',
+    N1: 'Nhìn Vuông', N2: 'Đọc Thêm', N3: 'Bù Đối', N4: 'Kính Dây', N5: 'Trung Trực',
+    T1: 'Bán Kính', T2: 'Cắt Nhau', T3: 'Hai Đầu',
+    S1: 'Đồng Dạng', S2: 'Tích Chéo', S3: 'Vuông Dạng', S4: 'Bằng Nhau',
+    P1: 'Thales', P2: 'Trung Bình', P3: 'Cùng Vuông', P4: 'Bình Hành', P5: 'Phân Giác',
+    Q1: 'Trực Tâm', Q2: 'Ngoại Tâm',
+    K1: 'Thẳng Hàng', K2: 'Trung Điểm', K3: 'Vuông Góc', K4: 'Song Song', K5: 'Đồng Quy', K6: 'Cân Đối',
+    B1: 'Hình Thang', B2: 'Chia Đôi', B3: 'Hai Chéo', B4: 'Ba Tiếp', B5: 'Đường Kính', B6: 'Trung Tuyến', B7: 'Chung Đỉnh',
+  };
+  const ACC = ['#fff3a0', '#ff9bd2', '#9be7ff', '#c6ff9b', '#ffd1a1', '#d9c2ff', '#ffffff', '#ffb3b3'];
+  const STAGE = ['', 'Bé', 'Lớn', 'Tiến hoá'];
+  const XP = [0, 0, 3, 8]; // mốc kinh nghiệm để lên dạng 2, 3
+  const hx = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16));
+  const mix = (a, b, t) => { const A = hx(a), B = hx(b); return '#' + A.map((v, i) => Math.round(v + (B[i] - v) * t).toString(16).padStart(2, '0')).join(''); };
+  const OL = '#1d2a5c';
+  const info = id => { const g = id[0], s = SP[g], i = +id.slice(1) - 1; return { id, g, i, loai: s.loai, he: s.he, name: s.loai + ' ' + (TAG[id] || id), c: s.c, acc: ACC[i % ACC.length] }; };
+
+  function eyes(x1, x2, y, r, sil) {
+    if (sil) return '';
+    const e = x => `<ellipse cx="${x}" cy="${y}" rx="${r * 0.8}" ry="${r}" fill="${OL}"/><circle cx="${x - r * 0.25}" cy="${y - r * 0.38}" r="${r * 0.36}" fill="#fff"/><circle cx="${x + r * 0.3}" cy="${y + r * 0.35}" r="${r * 0.16}" fill="#fff"/>`;
+    return e(x1) + e(x2);
+  }
+  const cheeks = (x1, x2, y, sil) => sil ? '' : `<ellipse cx="${x1}" cy="${y}" rx="5" ry="3" fill="#ff8fb1" opacity=".75"/><ellipse cx="${x2}" cy="${y}" rx="5" ry="3" fill="#ff8fb1" opacity=".75"/>`;
+  const mouth = (x, y, sil) => sil ? '' : `<path d="M${x - 4} ${y} q4 4 8 0" stroke="${OL}" stroke-width="2" fill="none" stroke-linecap="round"/>`;
+  const sparkle = (x, y, r, c) => `<path class="pt-tw" d="M${x} ${y - r} Q${x} ${y} ${x + r} ${y} Q${x} ${y} ${x} ${y + r} Q${x} ${y} ${x - r} ${y} Q${x} ${y} ${x} ${y - r} Z" fill="${c}"/>`;
+
+  // từng loài: (P = bảng màu, st = dạng 1..3, v = biến thể) → svg ruột
+  const BODY = {
+    G(P, st, v, sil) { // cáo tai tam giác
+      const ear = (x, s) => `<path d="M${x} 50 L${x + s * 6} ${st > 1 ? 18 : 26} L${x + s * 22} 44 Z" fill="${P.m}" stroke="${OL}" stroke-width="2.5" stroke-linejoin="round"/><path d="M${x + s * 5} 46 L${x + s * 7} ${st > 1 ? 27 : 33} L${x + s * 16} 44 Z" fill="${P.l}"/>`;
+      return `<path d="M84 86 C${st > 1 ? 112 : 104} 84 ${st > 1 ? 116 : 106} 56 ${st > 1 ? 100 : 94} 52 C102 66 96 76 82 76 Z" fill="${P.m}" stroke="${OL}" stroke-width="2.5"/><path d="M${st > 1 ? 100 : 94} 52 C${st > 1 ? 108 : 100} 58 ${st > 1 ? 108 : 100} 66 104 68 C100 60 98 56 ${st > 1 ? 100 : 94} 52 Z" fill="#fff"/>
+        <ellipse cx="60" cy="84" rx="26" ry="20" fill="${P.m}" stroke="${OL}" stroke-width="2.5"/><ellipse cx="60" cy="90" rx="13" ry="11" fill="${P.l}"/>
+        ${ear(36, 1)}${ear(84, -1)}<circle cx="60" cy="58" r="25" fill="${P.m}" stroke="${OL}" stroke-width="2.5"/>
+        <path d="M44 66 Q60 82 76 66 Q70 60 60 62 Q50 60 44 66 Z" fill="#fff"/>${v.pat === 1 ? `<path d="M52 36 L60 46 L68 36" fill="${P.a}" stroke="${OL}" stroke-width="1.5"/>` : ''}
+        ${eyes(50, 70, 56, 5.5, sil)}<ellipse cx="60" cy="66" rx="3.2" ry="2.4" fill="${OL}"/>${cheeks(42, 78, 64, sil)}`;
+    },
+    V(P, st, v, sil) { // rùa mai tam giác vuông
+      return `<ellipse cx="34" cy="96" rx="8" ry="6" fill="${P.l}" stroke="${OL}" stroke-width="2.5"/><ellipse cx="84" cy="96" rx="8" ry="6" fill="${P.l}" stroke="${OL}" stroke-width="2.5"/>
+        <circle cx="26" cy="68" r="${st > 1 ? 19 : 17}" fill="${P.l}" stroke="${OL}" stroke-width="2.5"/>
+        <path d="M44 92 L${st > 1 ? 104 : 98} 92 Q${st > 1 ? 104 : 98} 92 44 ${st > 2 ? 36 : 44} Z" fill="${P.m}" stroke="${OL}" stroke-width="2.8" stroke-linejoin="round"/>
+        <path d="M44 80 h12 v12" fill="none" stroke="${OL}" stroke-width="2"/><path d="M50 ${st > 2 ? 54 : 60} L70 78 L86 86" stroke="${P.d}" stroke-width="2" fill="none"/>
+        ${v.pat ? `<circle cx="58" cy="${st > 2 ? 66 : 70}" r="4" fill="${P.a}"/><circle cx="72" cy="84" r="3" fill="${P.a}"/>` : ''}
+        ${eyes(20, 34, 64, 4.6, sil)}${cheeks(16, 38, 74, sil)}${mouth(27, 76, sil)}`;
+    },
+    N(P, st, v, sil) { // mochi tròn có vòng quỹ đạo
+      return `<ellipse cx="60" cy="72" rx="${st > 1 ? 50 : 44}" ry="${st > 1 ? 16 : 12}" fill="none" stroke="${P.a}" stroke-width="3" transform="rotate(-12 60 72)"/>
+        <path d="M60 30 q-2 -10 6 -14" stroke="${OL}" stroke-width="2.5" fill="none"/><circle cx="67" cy="15" r="4" fill="${P.a}" stroke="${OL}" stroke-width="2"/>
+        <path d="M24 82 C20 46 40 30 60 30 C80 30 100 46 96 82 C94 98 26 98 24 82 Z" fill="${P.m}" stroke="${OL}" stroke-width="2.5"/>
+        <path d="M36 50 Q44 38 58 38" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round" opacity=".7"/>
+        <path d="M30 86 C40 96 80 96 90 86" stroke="${P.d}" stroke-width="2" fill="none"/>
+        ${eyes(48, 72, 64, 6, sil)}${cheeks(38, 82, 74, sil)}${mouth(60, 76, sil)}`;
+    },
+    T(P, st, v, sil) { // chim cánh tiếp tuyến
+      return `<path d="M60 26 l-6 -10 M60 26 l2 -12 M60 26 l8 -9" stroke="${OL}" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="58" cy="66" r="${st > 1 ? 32 : 29}" fill="${P.m}" stroke="${OL}" stroke-width="2.5"/><ellipse cx="58" cy="78" rx="17" ry="13" fill="${P.l}"/>
+        <path d="M${st > 1 ? 74 : 76} 44 L${st > 1 ? 118 : 108} ${st > 1 ? 30 : 40} L${st > 1 ? 112 : 104} ${st > 1 ? 50 : 54} L82 66 Z" fill="${P.a}" stroke="${OL}" stroke-width="2.5" stroke-linejoin="round"/>
+        <path d="M30 70 L14 64 L22 80 Z" fill="${P.d}" stroke="${OL}" stroke-width="2"/>
+        <path d="M55 63 L67 63 L61 71 Z" fill="#ffc04d" stroke="${OL}" stroke-width="2" stroke-linejoin="round"/>
+        ${eyes(52, 70, 56, 5, sil)}${cheeks(44, 78, 66, sil)}<path d="M50 96 v8 M66 96 v8" stroke="${OL}" stroke-width="2.5" stroke-linecap="round"/>`;
+    },
+    S(P, st, v, sil) { // thỏ có bản sao đồng dạng
+      const bun = (sc, tx, ty, main) => `<g transform="translate(${tx} ${ty}) scale(${sc})"><path d="M48 40 C40 4 50 -2 54 36 M72 40 C80 4 70 -2 66 36" fill="${P.m}" stroke="${OL}" stroke-width="${2.5 / sc}"/><path d="M48 38 C42 10 50 6 53 36 Z M72 38 C78 10 70 6 67 36 Z" fill="${P.l}"/>
+        <ellipse cx="60" cy="86" rx="24" ry="18" fill="${P.m}" stroke="${OL}" stroke-width="${2.5 / sc}"/><circle cx="60" cy="60" r="23" fill="${P.m}" stroke="${OL}" stroke-width="${2.5 / sc}"/>
+        ${main ? eyes(51, 69, 58, 5, sil) + cheeks(44, 76, 66, sil) + mouth(60, 67, sil) : (sil ? '' : `<circle cx="52" cy="58" r="4" fill="${OL}"/><circle cx="68" cy="58" r="4" fill="${OL}"/>`)}</g>`;
+      return bun(1, 0, 4, true) + (st > 1 ? bun(0.42, 70, 46, false) : '') + (st > 2 ? bun(0.3, 10, 62, false) : '') + (v.pat ? `<circle cx="60" cy="96" r="4" fill="${P.a}"/>` : '');
+    },
+    P(P, st, v, sil) { // tắc kè sọc song song
+      return `<path d="M88 84 C108 84 112 64 100 60 C92 58 92 70 100 70" fill="none" stroke="${P.m}" stroke-width="9" stroke-linecap="round"/><path d="M88 84 C108 84 112 64 100 60 C92 58 92 70 100 70" fill="none" stroke="${OL}" stroke-width="2"/>
+        <path d="M22 66 C22 48 46 44 62 52 C80 58 92 70 90 84 C88 98 40 100 26 90 C20 84 22 76 22 66 Z" fill="${P.m}" stroke="${OL}" stroke-width="2.5"/>
+        ${[0, 1, st > 1 ? 2 : -1].filter(k => k >= 0).map(k => `<path d="M${50 + k * 12} 56 L${46 + k * 12} 92" stroke="${P.a}" stroke-width="4" stroke-linecap="round"/>`).join('')}
+        <path d="M28 96 l-6 6 M48 98 l-2 7 M70 96 l4 6" stroke="${OL}" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="30" cy="54" r="10" fill="${P.l}" stroke="${OL}" stroke-width="2.5"/><circle cx="48" cy="50" r="10" fill="${P.l}" stroke="${OL}" stroke-width="2.5"/>
+        ${eyes(30, 48, 54, 5, sil)}${cheeks(24, 52, 70, sil)}${mouth(36, 70, sil)}`;
+    },
+    Q(P, st, v, sil) { // cú – ba đường đồng quy trên trán
+      return `<path d="M34 40 L28 ${st > 1 ? 16 : 24} L46 32 Z M86 40 L92 ${st > 1 ? 16 : 24} L74 32 Z" fill="${P.d}" stroke="${OL}" stroke-width="2.5" stroke-linejoin="round"/>
+        <path d="M24 70 C22 40 40 28 60 28 C80 28 98 40 96 70 C94 98 80 106 60 106 C40 106 26 98 24 70 Z" fill="${P.m}" stroke="${OL}" stroke-width="2.5"/>
+        <path d="M40 80 Q60 104 80 80 Q72 96 60 98 Q48 96 40 80 Z" fill="${P.l}"/>
+        <circle cx="46" cy="60" r="13" fill="#fff" stroke="${OL}" stroke-width="2"/><circle cx="74" cy="60" r="13" fill="#fff" stroke="${OL}" stroke-width="2"/>
+        <path d="M60 40 L46 60 M60 40 L74 60 M60 40 L60 70" stroke="${P.a}" stroke-width="2" opacity=".9"/><circle cx="60" cy="40" r="4.5" fill="${P.a}" stroke="${OL}" stroke-width="1.8"/>
+        ${eyes(46, 74, 60, 6, sil)}<path d="M56 70 L64 70 L60 77 Z" fill="#ffc04d" stroke="${OL}" stroke-width="1.8"/>`;
+    },
+    K(P, st, v, sil) { // kỳ nhông mang lông vũ
+      const gill = (x, s) => [0, 1, 2].map(k => `<path d="M${x} ${48 + k * 10} q${s * (st > 1 ? 18 : 13)} ${-6 + k * 3} ${s * (st > 1 ? 24 : 18)} ${-2 + k * 6}" stroke="${P.a}" stroke-width="${st > 2 ? 6 : 5}" stroke-linecap="round" fill="none"/>`).join('');
+      return `<path d="M76 92 C96 96 108 86 106 76 C100 84 90 86 78 82 Z" fill="${P.l}" stroke="${OL}" stroke-width="2.2"/>
+        <ellipse cx="58" cy="88" rx="22" ry="14" fill="${P.m}" stroke="${OL}" stroke-width="2.5"/>
+        ${gill(30, -1)}${gill(90, 1)}<ellipse cx="60" cy="60" rx="32" ry="24" fill="${P.m}" stroke="${OL}" stroke-width="2.5"/>
+        <ellipse cx="60" cy="68" rx="18" ry="9" fill="${P.l}" opacity=".8"/>${v.pat ? `<circle cx="44" cy="46" r="3" fill="${P.a}"/><circle cx="78" cy="48" r="2.5" fill="${P.a}"/>` : ''}
+        ${eyes(46, 74, 58, 5.2, sil)}${cheeks(38, 82, 68, sil)}<path d="M52 70 q8 6 16 0" stroke="${OL}" stroke-width="2.2" fill="none" stroke-linecap="round"/>`;
+    },
+    B(P, st, v, sil) { // thần long cánh sao (huyền thoại)
+      const wing = s => `<path d="M${60 + s * 18} 64 C${60 + s * 40} 30 ${60 + s * 56} 36 ${60 + s * 58} 26 C${60 + s * 62} 46 ${60 + s * 52} 60 ${60 + s * 56} 70 C${60 + s * 44} 66 ${60 + s * 36} 74 ${60 + s * 22} 78 Z" fill="${P.a}" stroke="${OL}" stroke-width="2.4" stroke-linejoin="round"/>`;
+      return `${sil ? '' : `<circle cx="60" cy="64" r="50" fill="url(#pg-${v.id})" opacity=".55"/>`}${wing(1)}${wing(-1)}
+        <path d="M74 96 C96 102 104 90 100 82 C94 92 86 92 76 88 Z" fill="${P.m}" stroke="${OL}" stroke-width="2.2"/>
+        <ellipse cx="60" cy="88" rx="20" ry="15" fill="${P.m}" stroke="${OL}" stroke-width="2.5"/><ellipse cx="60" cy="92" rx="10" ry="9" fill="${P.l}"/>
+        <path d="M46 40 L40 20 L54 34 Z M74 40 L80 20 L66 34 Z" fill="#fff8d0" stroke="${OL}" stroke-width="2.2" stroke-linejoin="round"/>
+        <circle cx="60" cy="56" r="24" fill="${P.m}" stroke="${OL}" stroke-width="2.5"/>
+        <path d="M60 34 l3 6 l6 1 l-5 4 l1 6 l-5 -3 l-5 3 l1 -6 l-5 -4 l6 -1 Z" fill="#fff" stroke="${OL}" stroke-width="1.5"/>
+        ${eyes(50, 70, 58, 5.5, sil)}${cheeks(42, 78, 66, sil)}${mouth(60, 67, sil)}`;
+    },
+  };
+
+  function svg(id, stage, opt) {
+    opt = opt || {}; const I = info(id), st = I.g === 'B' ? 3 : Math.max(1, Math.min(3, stage || 1)), sil = !!opt.sil;
+    const P = sil ? { m: '#141a33', l: '#141a33', d: '#141a33', a: '#141a33' } : { m: I.c, l: mix(I.c, '#ffffff', 0.55), d: mix(I.c, '#1d2a5c', 0.35), a: I.acc };
+    const v = { pat: I.i % 2, id };
+    let inner = BODY[I.g](P, st, v, sil);
+    if (sil) inner = inner.replace(/fill="#[0-9a-fA-F]{3,6}"/g, 'fill="#141a33"').replace(/stroke="(?!#1d2a5c)#[0-9a-fA-F]{3,6}"/g, 'stroke="#141a33"');
+    // trang sức theo biến thể (dạng 2+)
+    if (!sil && st >= 2 && I.g !== 'B') {
+      const k = I.i % 4;
+      inner += k === 0 ? `<path d="M74 34 q6 -10 14 -6 q-4 8 -14 6 Z" fill="#7ee08a" stroke="${OL}" stroke-width="1.8"/>`
+        : k === 1 ? `<path d="M52 28 l-10 -6 l0 12 Z M52 28 l10 -6 l0 12 Z" fill="#ff8fb1" stroke="${OL}" stroke-width="1.8" stroke-linejoin="round" transform="translate(16 2)"/>`
+          : k === 2 ? `<path d="M40 84 Q60 92 80 84 L78 90 Q60 98 42 90 Z" fill="${P.a}" stroke="${OL}" stroke-width="1.8"/>`
+            : `<path d="M60 22 l4 8 l-4 6 l-4 -6 Z" fill="#9be7ff" stroke="${OL}" stroke-width="1.8"/>`;
+    }
+    // dạng tiến hoá: vương miện + hào quang
+    let back = '', front = '';
+    if (!sil && st === 3) {
+      back = `<circle cx="60" cy="66" r="52" fill="url(#pg-${id})" opacity=".45"/>`;
+      if (I.g !== 'B') front = `<path d="M50 ${I.g === 'V' ? 44 : 24} l3 -9 l7 6 l7 -6 l3 9 Z" fill="#ffd27a" stroke="${OL}" stroke-width="1.8" stroke-linejoin="round" transform="${I.g === 'V' ? 'translate(-34 0)' : ''}"/>`;
+      front += sparkle(16, 24, 6, '#fff3a0') + sparkle(104, 100, 5, '#fff');
+    }
+    const sc = st === 1 ? 0.9 : 1;
+    return `<svg viewBox="0 0 120 120" class="petsvg st${st}" aria-hidden="true"><defs><radialGradient id="pg-${id}"><stop offset="0" stop-color="${I.c}"/><stop offset="1" stop-color="${I.c}" stop-opacity="0"/></radialGradient></defs>
+      ${back}<ellipse cx="60" cy="110" rx="${30 * sc}" ry="5" fill="#000" opacity=".25"/><g class="petbody" transform="translate(${60 - 60 * sc} ${110 - 110 * sc}) scale(${sc})">${inner}</g>${front}</svg>`;
+  }
+  const stageOf = (id, xp) => id[0] === 'B' ? 3 : xp >= XP[3] ? 3 : xp >= XP[2] ? 2 : 1;
+  return { info, svg, stageOf, STAGE, XP, SP };
+})();
+
+</script>
+<script>
 (() => {
 const G = window.GAME;
 const CARD = Object.fromEntries(G.cards.map(c => [c.id, c]));
@@ -1180,7 +1359,7 @@ const ZONES = [
   ...G.sectors.map(s => ({ key:'ch'+s.so, so:s.so, ten:['Khoang Động Cơ Vuông Góc','Trạm Trung Tuyến','Đài Quan Sát Nội Tiếp','Cánh Tiếp Tuyến','Lõi Đường Kính'][s.so-1], sub:s.ten, mota:s.mota, y:s.y, ids:s.bai })),
 ];
 const LS = 'orthos-v1';
-const fresh = () => ({ gems:150, cards:Object.fromEntries(STARTER.map(id=>[id,1])), done:{}, tk:{}, sw:'ggm', intro:false, snd:false });
+const fresh = () => ({ gems:150, cards:Object.fromEntries(STARTER.map(id=>[id,1])), done:{}, tk:{}, xp:{}, buddy:null, sw:'ggm', intro:false, snd:false });
 let S = fresh();
 const load = () => { try { const t = localStorage.getItem(LS); if (t) S = Object.assign(fresh(), JSON.parse(t)); } catch(e){} };
 const save = () => { try { localStorage.setItem(LS, JSON.stringify(S)); } catch(e){} };
@@ -1188,6 +1367,18 @@ const $ = s => document.querySelector(s);
 const esc = t => String(t).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const own = id => (S.cards[id]||0) > 0;
 const ownedCount = () => G.cards.filter(c => own(c.id)).length;
+// ---------- pet
+const pXP = id => (S.xp&&S.xp[id])||0;
+const pSt = id => PETS.stageOf(id, pXP(id));
+const pName = id => PETS.info(id).name;
+const pSVG = (id, o) => PETS.svg(id, pSt(id), o);
+const buddyId = () => (S.buddy&&own(S.buddy)) ? S.buddy : (G.cards.find(c=>own(c.id))||{}).id;
+function petPop(id, from, txt){ try{ const r=from&&from.getBoundingClientRect?from.getBoundingClientRect():{left:innerWidth/2,top:innerHeight/2,width:0}; const d=document.createElement('div'); d.className='petpop'; d.style.left=(r.left+r.width/2)+'px'; d.style.top=(r.top)+'px'; d.style.setProperty('--c', PETS.info(id).c);
+  d.innerHTML=`<span class="ring"></span>${pSVG(id)}<b>${txt||pName(id)+' xuất chiêu!'}</b>`; document.body.appendChild(d); setTimeout(()=>d.remove(),1300); }catch(e){} }
+function petGain(id, from){ S.xp=S.xp||{}; const before=pSt(id); S.xp[id]=pXP(id)+1; save(); petPop(id, from); const after=pSt(id);
+  if(after>before) setTimeout(()=>{ sWin(); document.querySelectorAll('.evopop').forEach(x=>x.remove()); const d=document.createElement('div'); d.className='evopop'; d.setAttribute('role','status');
+    d.innerHTML=`<div class="eyebrow">Pet tiến hoá!</div><div class="evrow"><span class="old">${PETS.svg(id,before)}</span><span class="arr">➜</span><span class="new">${PETS.svg(id,after)}</span></div><b>${esc(pName(id))} lên dạng ${PETS.STAGE[after]}</b>`;
+    document.body.appendChild(d); setTimeout(()=>d.remove(),3200); }, 450); }
 
 // ---------- âm thanh
 let AC = null;
@@ -1218,7 +1409,7 @@ function cardHTML(c, opts={}){
   const hide = opts.hideMissing && !has;
   return `<button class="card r${c.rar} ${hide?'miss':''} ${c.doc?'doc':''}" style="${cvar(c)}" data-card="${c.id}">
     <span class="code">${c.id}</span>${!opts.noCount && n>1?`<span class="cnt">×${n}</span>`:''}
-    <span class="art" style="color:${COL[c.nhom]}">${art(c.nhom)}</span>
+    <span class="art pet">${pSVG(c.id,{sil:hide})}</span><span class="pn">${hide?'Pet chưa bắt':esc(pName(c.id))+' · '+PETS.STAGE[pSt(c.id)]}</span>
     <span class="rar">${c.doc?'Không dùng trực tiếp':RARN[c.rar]}</span>
     <span class="nm">${hide?'Thẻ chưa có':esc(c.ten)}</span>
     <span class="ra">${hide?esc(c.nhomTen):esc(c.ra)}</span></button>`;
@@ -1252,7 +1443,7 @@ function vMap(a){
   <div class="bar" style="max-width:420px;margin-top:8px"><i style="width:${fixed/tot*100}%"></i></div>
   <p class="muted" style="margin:4px 0 0;font-size:13px">${fixed}/${tot} mô-đun đã hoạt động</p>
   <div class="ship" style="margin-top:12px"><div class="ship3d" id="ship3d"></div></div>
-  <div class="mascot">${botSVG('bigbot')}<p style="margin:0"><b style="color:var(--holo);font-family:var(--f-display)">PÔLYA-7</b><br>${next}</p></div>
+  <div class="mascot withpet">${botSVG('bigbot')}<p style="margin:0"><b style="color:var(--holo);font-family:var(--f-display)">PÔLYA-7</b><br>${next}</p>${buddyId()?`<button class="buddy" id="buddy" title="Pet đồng hành"><span class="bp">${pSVG(buddyId())}</span><span><small>Pet đồng hành</small><b>${esc(pName(buddyId()))}</b><small>${PETS.STAGE[pSt(buddyId())]} · hệ ${PETS.info(buddyId()).he}</small></span></button>`:''}</div>
   <div class="zgrid">${ZONES.map(z=>{ const d=zDone(z); const op=zoneOpen(z); return `<button class="zcard ${op?'':'lock'}" data-zone="${z.key}" ${op?'':'aria-disabled="true"'}>
       <span class="zicon">${ZICON[z.key]}</span>
       <span><b style="font-family:var(--f-display)">${z.ten}</b><br><span class="muted" style="font-size:12.5px">${esc(z.sub)}</span><span class="bar"><i style="width:${d/z.ids.length*100}%"></i></span></span>
@@ -1263,6 +1454,7 @@ function vMap(a){
     const el=$('#ship3d'); if(!(window.SHIP3D&&SHIP3D.mount(el, st, pick))){ el.className=''; el.innerHTML=shipSVG(); } }
   a.querySelectorAll('.zone').forEach(g=>{ g.onclick=()=>openZone(g.dataset.k); });
   $('#bStory').onclick=()=>story(0);
+  const bu=$('#buddy'); if(bu) bu.onclick=()=>{ petPop(buddyId(), bu, 'Chào kỹ sư!'); sOk(); setTimeout(()=>showCard(buddyId()),600); };
 }
 function shipSVG(){
   const stat={}; ZONES.forEach(z=>{ stat[z.key]={ d:zDone(z), n:z.ids.length, open:zoneOpen(z) }; });
@@ -1289,7 +1481,7 @@ function vCards(a){
   const groups=[['all','Tất cả'],['G','Góc'],['V','Tam giác vuông'],['N','Đường tròn'],['T','Tiếp tuyến'],['S','Đồng dạng'],['P','Song song'],['Q','Đồng quy'],['K','Đổi kết luận'],['B','Huyền thoại']];
   const list=G.cards.filter(c=>f==='all'||c.nhom===f);
   a.innerHTML=`<div class="row" style="margin-top:8px"><button class="btn sm" id="back">← Sơ đồ tàu</button><span class="sp"></span><span class="muted">Đã có ${ownedCount()}/45 thẻ</span></div>
-  <h2 style="font-size:28px;margin-top:10px">Bộ sưu tập thẻ tri thức</h2>
+  <h2 style="font-size:28px;margin-top:10px">Bộ sưu tập thẻ & pet tri thức</h2><p class="muted" style="margin:4px 0 0">Mỗi thẻ là một pet. Gắn đúng thẻ khi lắp ráp: pet xuất chiêu, lên dạng <b>Lớn</b> sau ${PETS.XP[2]} lần, <b>Tiến hoá</b> sau ${PETS.XP[3]} lần. Đã tiến hoá: ${G.cards.filter(c=>own(c.id)&&pSt(c.id)===3&&c.nhom!=='B').length} pet.</p>
   <div class="row" style="margin-top:10px">${groups.map(([k,t])=>`<button class="btn sm ${k===f?'pri':''}" data-f="${k}">${t}</button>`).join('')}</div>
   <div class="cardsGrid">${list.map(c=>cardHTML(c,{hideMissing:true})).join('')}</div>`;
   $('#back').onclick=()=>go({v:'map'});
@@ -1302,18 +1494,19 @@ function showCard(id){
     <div class="eyebrow">${esc(c.nhomTen)} · ${c.doc?'không dùng trực tiếp':RARN[c.rar]}</div><h2>${c.id} – ${esc(c.ten)}</h2>
     <p style="margin:0"><b>Khi thấy:</b> <span class="math">${esc(c.khi)}</span></p>
     <p style="margin:0"><b>Rút ra:</b> <span class="math">${esc(c.ra)}</span></p>
-    ${has?`<p class="muted" style="margin:0">Bạn có ${S.cards[id]} thẻ này.</p>`:c.nhom==='B'?`<p class="muted" style="margin:0">Thẻ huyền thoại: nhận ở Phòng Thí Nghiệm Tách Lớp.</p>`:`<p class="muted" style="margin:0">Chưa có. In ngay với 30 tinh thể, hoặc mở gói thẻ.</p>`}
+    ${has?(()=>{ const x=pXP(id), s=pSt(id), nx=s<3?PETS.XP[s+1]:null; return `<div class="pcard"><span class="pbig">${pSVG(id)}</span><div><div class="eyebrow">Pet · hệ ${PETS.info(id).he}</div><b style="font-family:var(--f-display);font-size:17px">${esc(pName(id))}</b><div class="muted" style="font-size:13px">Dạng ${PETS.STAGE[s]}${nx?` · ${x}/${nx} lần xuất chiêu để tiến hoá`:' · đã tiến hoá hoàn toàn'}</div>${nx?`<div class="bar" style="margin-top:6px"><i style="width:${Math.min(100,(x-PETS.XP[s])/(nx-PETS.XP[s])*100)}%"></i></div>`:''}${buddyId()===id?'<div class="tag done" style="margin-top:8px;display:inline-block">Đang đồng hành</div>':'<button class="btn sm" id="bud" style="margin-top:8px">Chọn làm pet đồng hành</button>'}</div></div>`; })()+`<p class="muted" style="margin:0">Bạn có ${S.cards[id]} thẻ này. Gắn đúng thẻ khi lắp ráp chứng minh, pet sẽ xuất chiêu và lớn lên.</p>`:c.nhom==='B'?`<p class="muted" style="margin:0">Thẻ huyền thoại: nhận ở Phòng Thí Nghiệm Tách Lớp.</p>`:`<p class="muted" style="margin:0">Chưa có. In ngay với 30 tinh thể, hoặc mở gói thẻ.</p>`}
     <div class="row">${!has&&c.nhom!=='B'?`<button class="btn amb" id="pr">In thẻ (30)</button>`:''}<button class="btn" id="cl">Đóng</button></div></div></div>`);
   $('#cl').onclick=closeOv; const p=$('#pr'); if(p) p.onclick=()=>{ if(printCard(id)){ closeOv(); render(); } };
+  const bd=$('#bud'); if(bd) bd.onclick=()=>{ S.buddy=id; save(); sOk(); toast(pName(id)+' đã thành pet đồng hành'); showCard(id); render(); };
 }
 function printCard(id){ if(S.gems<30){ toast('Không đủ tinh thể'); sBad(); return false;} S.gems-=30; S.cards[id]=(S.cards[id]||0)+1; save(); sOk(); toast('Đã in thẻ '+id); hud(); return true; }
 // ---------- máy in thẻ / gói thẻ
 function shop(){
   const pool=G.cards.filter(c=>c.nhom!=='B');
   const miss=pool.filter(c=>!own(c.id));
-  overlay(`<div class="eyebrow">Máy in thẻ</div><h2>Gói tín hiệu tri thức</h2>
-    <p class="muted" style="margin:0">Mỗi gói có 3 thẻ ngẫu nhiên (không gồm thẻ huyền thoại). Thẻ trùng được hoàn 10 tinh thể. Hoặc in đúng thẻ bạn cần với 30 tinh thể.</p>
-    <div class="row"><button class="btn amb" id="op">Mở gói (40)</button><span class="muted">Bạn có ${S.gems} tinh thể · còn thiếu ${miss.length} thẻ thường</span></div>
+  overlay(`<div class="eyebrow">Máy in thẻ · trạm bắt pet</div><h2>Gói tín hiệu tri thức</h2>
+    <p class="muted" style="margin:0">Mỗi gói bắt được 3 pet tri thức ngẫu nhiên – mỗi pet là một thẻ (không gồm thần long huyền thoại). Thẻ trùng được hoàn 10 tinh thể. Hoặc in đúng thẻ bạn cần với 30 tinh thể.</p>
+    <div class="row"><button class="btn amb" id="op">Bắt pet (40)</button><span class="muted">Bạn có ${S.gems} tinh thể · còn thiếu ${miss.length} thẻ thường</span></div>
     <div id="pk"></div>
     ${miss.length?`<div><b style="font-family:var(--f-display)">In thẻ còn thiếu</b><div class="row" style="margin-top:6px">${miss.map(c=>`<button class="mini" style="${cvar(c)}" data-pr="${c.id}"><span class="code">${c.id}</span>${esc(c.ten)}</button>`).join('')}</div></div>`:''}
     <div class="row"><span class="sp"></span><button class="btn" id="cl">Đóng</button></div>`, true);
@@ -1323,7 +1516,7 @@ function shop(){
     S.gems-=40; const got=[];
     for(let i=0;i<3;i++){ const w=pool.map(c=>(c.rar===3?1:2)*(own(c.id)?1:3)); let r=Math.random()*w.reduce((a,b)=>a+b,0), k=0; while(r>w[k]){ r-=w[k]; k++; } const c=pool[k]; if(own(c.id)) S.gems+=10; S.cards[c.id]=(S.cards[c.id]||0)+1; got.push(c); }
     save(); sWin(); hud();
-    $('#pk').innerHTML=`<div class="pack">${got.map(c=>cardHTML(c,{noCount:true})).join('')}</div>`;
+    $('#pk').innerHTML=`<div class="catch">${got.map((c,i)=>`<div class="cball" style="--c:${COL[c.nhom]};animation-delay:${i*.35}s"><span class="orb" style="animation-delay:${i*.35}s"></span><span class="cpet" style="animation-delay:${i*.35+.7}s">${pSVG(c.id)}</span><b style="animation-delay:${i*.35+.8}s">${(S.cards[c.id]===1)?'MỚI! ':''}${esc(pName(c.id))}</b><small style="animation-delay:${i*.35+.8}s">thẻ ${c.id} · ${esc(c.ten)}</small></div>`).join('')}</div>`;
   };
   document.querySelectorAll('[data-pr]').forEach(b=>b.onclick=()=>{ if(printCard(b.dataset.pr)) shop(); });
 }
@@ -1501,7 +1694,7 @@ function trayHTML(title){
   const hand=G.cards.filter(c=>own(c.id)&&(M.tab==='all'||c.nhom===M.tab));
   return `<div class="tray"><div class="row"><b style="font-family:var(--f-display)">${title}</b><span class="muted" style="font-size:12px">(${hand.length} thẻ)</span></div>
     <div class="tabs">${TRAYG.map(([k,t])=>`<button class="${M.tab===k?'on':''}" data-t="${k}">${t}</button>`).join('')}</div>
-    <div class="hand">${hand.map(c=>`<button class="mini" style="${cvar(c)}" data-c="${c.id}" title="${esc(c.ra)}"><span class="code">${c.id}</span>${esc(c.ten)}</button>`).join('')}</div></div>`;
+    <div class="hand">${hand.map(c=>`<button class="mini" style="${cvar(c)}" data-c="${c.id}" title="${esc(c.ra)}"><span class="mpet">${pSVG(c.id)}</span><span class="code">${c.id}</span>${esc(c.ten)}</button>`).join('')}</div></div>`;
 }
 function mStep3(el){
   const m=M.m;
@@ -1593,7 +1786,7 @@ function altReview(){
 function plug(id, btn){
   const s=M.m.steps[M.cur];
   if(s.codes.includes(id) && !M.filled[M.cur].includes(id)){
-    M.filled[M.cur].push(id); sOk();
+    M.filled[M.cur].push(id); sOk(); petGain(id, btn);
     if(s.codes.every(c=>M.filled[M.cur].includes(c))){ M.cur++; autoAdvance(); }
     render();
   } else { heatUp(); btn.classList.add('wrong'); toast(id+' không khớp khâu này – thử thẻ khác'); setTimeout(render,350); }

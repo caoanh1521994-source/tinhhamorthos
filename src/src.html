@@ -304,6 +304,43 @@ svg.board{display:block;width:100%;height:auto;touch-action:none;user-select:non
 .tool{font-weight:700;color:var(--holo);white-space:nowrap}.menu{font-weight:700;color:#ffb547}
 .sw{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden}.sw button{border:0;background:transparent;color:var(--muted);padding:4px 8px;font-size:12px;cursor:pointer}.sw button[aria-pressed="true"]{background:var(--holo);color:#04121a;font-weight:700}
 @media (max-width:860px){.tkmain{grid-template-columns:1fr}.tkstage{position:static}.tktabs{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* pet */
+.card .art.pet{height:112px;background:radial-gradient(circle at 50% 60%,var(--c2),rgba(10,15,31,.55) 70%)}
+.card .art.pet svg{width:108px;height:108px}
+.card:hover .petbody{animation:hop .5s}
+.card .pn{font-size:11px;color:var(--c);font-family:var(--f-display);font-weight:600;letter-spacing:.02em}
+.card.miss{filter:none}.card.miss .art.pet{background:rgba(10,15,31,.7)}.card.miss .nm,.card.miss .ra,.card.miss .code{opacity:.5}
+.petsvg .petbody{transform-box:fill-box;transform-origin:50% 100%}
+.petsvg.st3 .petbody{animation:idle 2.6s ease-in-out infinite}
+@keyframes idle{50%{transform:translateY(-3px) scale(1.02,.98)}}
+@keyframes hop{40%{transform:translateY(-10px) scale(.96,1.05)}70%{transform:translateY(0) scale(1.06,.94)}}
+.pt-tw{transform-box:fill-box;transform-origin:center;animation:twk 1.8s ease-in-out infinite}
+.mini .mpet{display:inline-block;width:26px;height:26px;margin:-4px 4px -8px -4px;vertical-align:middle}.mini .mpet svg{width:26px;height:26px}
+.petpop{position:fixed;z-index:80;transform:translate(-50%,-100%);pointer-events:none;display:grid;justify-items:center;animation:pp 1.3s ease-out forwards}
+.petpop svg{width:96px;height:96px;filter:drop-shadow(0 0 12px var(--c))}
+.petpop b{font-family:var(--f-display);font-size:13px;background:rgba(10,15,31,.9);border:1px solid var(--c);border-radius:999px;padding:2px 10px;white-space:nowrap}
+.petpop .ring{position:absolute;top:30px;left:50%;width:70px;height:70px;margin-left:-35px;border-radius:50%;border:3px solid var(--c);animation:ring .7s ease-out forwards}
+@keyframes pp{0%{opacity:0;transform:translate(-50%,-60%) scale(.4)}20%{opacity:1;transform:translate(-50%,-110%) scale(1.1)}35%{transform:translate(-50%,-100%) scale(1)}80%{opacity:1}100%{opacity:0;transform:translate(-50%,-140%) scale(.9)}}
+@keyframes ring{from{transform:scale(.3);opacity:1}to{transform:scale(2.2);opacity:0}}
+.pcard{display:grid;grid-template-columns:110px 1fr;gap:12px;align-items:center;background:rgba(111,227,245,.05);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+.pcard .pbig svg{width:110px;height:110px}
+.catch{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin:6px 0}
+.cball{position:relative;width:150px;height:190px;display:grid;justify-items:center;align-content:start;padding-top:6px;border:1px solid var(--line);border-radius:10px;background:radial-gradient(circle at 50% 40%,color-mix(in srgb,var(--c) 30%,transparent),transparent 70%)}
+.cball .orb{position:absolute;top:36px;width:56px;height:56px;border-radius:50%;background:linear-gradient(#ff6b7a 0 46%,#1d2a5c 46% 54%,#f3f6ff 54%);border:3px solid #1d2a5c;box-shadow:0 0 18px var(--c);animation:orb 1s ease-in both}
+.cball .cpet{opacity:0;animation:out .5s ease-out both}.cball .cpet svg{width:110px;height:110px}
+.cball b,.cball small{opacity:0;animation:fadein .4s both;text-align:center;padding:0 6px}.cball b{font-family:var(--f-display);font-size:13.5px;color:var(--c)}.cball small{color:var(--muted);font-size:11.5px;line-height:1.3}
+@keyframes orb{0%{transform:translateY(-60px) scale(.6)}35%{transform:translateY(0) scale(1)}45%,65%{transform:rotate(-14deg)}55%,75%{transform:rotate(14deg)}90%{transform:scale(1.2);opacity:1}100%{transform:scale(0);opacity:0}}
+@keyframes out{from{opacity:0;transform:scale(.2) translateY(20px)}to{opacity:1;transform:none}}
+@keyframes fadein{to{opacity:1}}
+.mascot.withpet{grid-template-columns:80px 1fr auto}
+.buddy{display:flex;gap:8px;align-items:center;text-align:left;border:1px solid var(--line);background:rgba(10,15,31,.5);border-radius:10px;padding:6px 12px 6px 6px;cursor:pointer;color:inherit;font:inherit}
+.buddy:hover{border-color:var(--holo)}.buddy .bp svg{width:76px;height:76px;display:block}.buddy .bp .petbody{animation:idle 2.2s ease-in-out infinite}
+.buddy small{display:block;color:var(--muted);font-size:11.5px}.buddy b{display:block;font-family:var(--f-display);font-size:14px}
+.evopop{position:fixed;z-index:85;left:50%;top:70px;transform:translateX(-50%);pointer-events:none;text-align:center;background:rgba(10,15,40,.95);border:1px solid var(--holo);border-radius:14px;padding:10px 18px 14px;box-shadow:0 0 40px -6px var(--holo);animation:evp 3.2s ease both}.evopop b{font-family:var(--f-display);font-size:16px}
+@keyframes evp{0%{opacity:0;transform:translate(-50%,-20px) scale(.8)}10%,85%{opacity:1;transform:translate(-50%,0) scale(1)}100%{opacity:0;transform:translate(-50%,-10px)}}
+.evo{text-align:center}.evrow{display:flex;align-items:center;justify-content:center;gap:10px;margin:10px 0}.evrow svg{width:130px;height:130px}.evrow .old{opacity:.6;filter:grayscale(.4)}.evrow .new{animation:out .7s .2s both}.evrow .arr{font-size:28px;color:var(--holo)}
+@media (max-width:640px){.mascot.withpet{grid-template-columns:64px 1fr}.mascot.withpet .buddy{grid-column:1/-1}.cball{width:100%;max-width:220px}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 
@@ -339,6 +376,9 @@ svg.board{display:block;width:100%;height:auto;touch-action:none;user-select:non
 /*TK*/
 </script>
 <script>
+/*PETS*/
+</script>
+<script>
 (() => {
 const G = window.GAME;
 const CARD = Object.fromEntries(G.cards.map(c => [c.id, c]));
@@ -353,7 +393,7 @@ const ZONES = [
   ...G.sectors.map(s => ({ key:'ch'+s.so, so:s.so, ten:['Khoang Động Cơ Vuông Góc','Trạm Trung Tuyến','Đài Quan Sát Nội Tiếp','Cánh Tiếp Tuyến','Lõi Đường Kính'][s.so-1], sub:s.ten, mota:s.mota, y:s.y, ids:s.bai })),
 ];
 const LS = 'orthos-v1';
-const fresh = () => ({ gems:150, cards:Object.fromEntries(STARTER.map(id=>[id,1])), done:{}, tk:{}, sw:'ggm', intro:false, snd:false });
+const fresh = () => ({ gems:150, cards:Object.fromEntries(STARTER.map(id=>[id,1])), done:{}, tk:{}, xp:{}, buddy:null, sw:'ggm', intro:false, snd:false });
 let S = fresh();
 const load = () => { try { const t = localStorage.getItem(LS); if (t) S = Object.assign(fresh(), JSON.parse(t)); } catch(e){} };
 const save = () => { try { localStorage.setItem(LS, JSON.stringify(S)); } catch(e){} };
@@ -361,6 +401,18 @@ const $ = s => document.querySelector(s);
 const esc = t => String(t).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const own = id => (S.cards[id]||0) > 0;
 const ownedCount = () => G.cards.filter(c => own(c.id)).length;
+// ---------- pet
+const pXP = id => (S.xp&&S.xp[id])||0;
+const pSt = id => PETS.stageOf(id, pXP(id));
+const pName = id => PETS.info(id).name;
+const pSVG = (id, o) => PETS.svg(id, pSt(id), o);
+const buddyId = () => (S.buddy&&own(S.buddy)) ? S.buddy : (G.cards.find(c=>own(c.id))||{}).id;
+function petPop(id, from, txt){ try{ const r=from&&from.getBoundingClientRect?from.getBoundingClientRect():{left:innerWidth/2,top:innerHeight/2,width:0}; const d=document.createElement('div'); d.className='petpop'; d.style.left=(r.left+r.width/2)+'px'; d.style.top=(r.top)+'px'; d.style.setProperty('--c', PETS.info(id).c);
+  d.innerHTML=`<span class="ring"></span>${pSVG(id)}<b>${txt||pName(id)+' xuất chiêu!'}</b>`; document.body.appendChild(d); setTimeout(()=>d.remove(),1300); }catch(e){} }
+function petGain(id, from){ S.xp=S.xp||{}; const before=pSt(id); S.xp[id]=pXP(id)+1; save(); petPop(id, from); const after=pSt(id);
+  if(after>before) setTimeout(()=>{ sWin(); document.querySelectorAll('.evopop').forEach(x=>x.remove()); const d=document.createElement('div'); d.className='evopop'; d.setAttribute('role','status');
+    d.innerHTML=`<div class="eyebrow">Pet tiến hoá!</div><div class="evrow"><span class="old">${PETS.svg(id,before)}</span><span class="arr">➜</span><span class="new">${PETS.svg(id,after)}</span></div><b>${esc(pName(id))} lên dạng ${PETS.STAGE[after]}</b>`;
+    document.body.appendChild(d); setTimeout(()=>d.remove(),3200); }, 450); }
 
 // ---------- âm thanh
 let AC = null;
@@ -391,7 +443,7 @@ function cardHTML(c, opts={}){
   const hide = opts.hideMissing && !has;
   return `<button class="card r${c.rar} ${hide?'miss':''} ${c.doc?'doc':''}" style="${cvar(c)}" data-card="${c.id}">
     <span class="code">${c.id}</span>${!opts.noCount && n>1?`<span class="cnt">×${n}</span>`:''}
-    <span class="art" style="color:${COL[c.nhom]}">${art(c.nhom)}</span>
+    <span class="art pet">${pSVG(c.id,{sil:hide})}</span><span class="pn">${hide?'Pet chưa bắt':esc(pName(c.id))+' · '+PETS.STAGE[pSt(c.id)]}</span>
     <span class="rar">${c.doc?'Không dùng trực tiếp':RARN[c.rar]}</span>
     <span class="nm">${hide?'Thẻ chưa có':esc(c.ten)}</span>
     <span class="ra">${hide?esc(c.nhomTen):esc(c.ra)}</span></button>`;
@@ -425,7 +477,7 @@ function vMap(a){
   <div class="bar" style="max-width:420px;margin-top:8px"><i style="width:${fixed/tot*100}%"></i></div>
   <p class="muted" style="margin:4px 0 0;font-size:13px">${fixed}/${tot} mô-đun đã hoạt động</p>
   <div class="ship" style="margin-top:12px"><div class="ship3d" id="ship3d"></div></div>
-  <div class="mascot">${botSVG('bigbot')}<p style="margin:0"><b style="color:var(--holo);font-family:var(--f-display)">PÔLYA-7</b><br>${next}</p></div>
+  <div class="mascot withpet">${botSVG('bigbot')}<p style="margin:0"><b style="color:var(--holo);font-family:var(--f-display)">PÔLYA-7</b><br>${next}</p>${buddyId()?`<button class="buddy" id="buddy" title="Pet đồng hành"><span class="bp">${pSVG(buddyId())}</span><span><small>Pet đồng hành</small><b>${esc(pName(buddyId()))}</b><small>${PETS.STAGE[pSt(buddyId())]} · hệ ${PETS.info(buddyId()).he}</small></span></button>`:''}</div>
   <div class="zgrid">${ZONES.map(z=>{ const d=zDone(z); const op=zoneOpen(z); return `<button class="zcard ${op?'':'lock'}" data-zone="${z.key}" ${op?'':'aria-disabled="true"'}>
       <span class="zicon">${ZICON[z.key]}</span>
       <span><b style="font-family:var(--f-display)">${z.ten}</b><br><span class="muted" style="font-size:12.5px">${esc(z.sub)}</span><span class="bar"><i style="width:${d/z.ids.length*100}%"></i></span></span>
@@ -436,6 +488,7 @@ function vMap(a){
     const el=$('#ship3d'); if(!(window.SHIP3D&&SHIP3D.mount(el, st, pick))){ el.className=''; el.innerHTML=shipSVG(); } }
   a.querySelectorAll('.zone').forEach(g=>{ g.onclick=()=>openZone(g.dataset.k); });
   $('#bStory').onclick=()=>story(0);
+  const bu=$('#buddy'); if(bu) bu.onclick=()=>{ petPop(buddyId(), bu, 'Chào kỹ sư!'); sOk(); setTimeout(()=>showCard(buddyId()),600); };
 }
 function shipSVG(){
   const stat={}; ZONES.forEach(z=>{ stat[z.key]={ d:zDone(z), n:z.ids.length, open:zoneOpen(z) }; });
@@ -462,7 +515,7 @@ function vCards(a){
   const groups=[['all','Tất cả'],['G','Góc'],['V','Tam giác vuông'],['N','Đường tròn'],['T','Tiếp tuyến'],['S','Đồng dạng'],['P','Song song'],['Q','Đồng quy'],['K','Đổi kết luận'],['B','Huyền thoại']];
   const list=G.cards.filter(c=>f==='all'||c.nhom===f);
   a.innerHTML=`<div class="row" style="margin-top:8px"><button class="btn sm" id="back">← Sơ đồ tàu</button><span class="sp"></span><span class="muted">Đã có ${ownedCount()}/45 thẻ</span></div>
-  <h2 style="font-size:28px;margin-top:10px">Bộ sưu tập thẻ tri thức</h2>
+  <h2 style="font-size:28px;margin-top:10px">Bộ sưu tập thẻ & pet tri thức</h2><p class="muted" style="margin:4px 0 0">Mỗi thẻ là một pet. Gắn đúng thẻ khi lắp ráp: pet xuất chiêu, lên dạng <b>Lớn</b> sau ${PETS.XP[2]} lần, <b>Tiến hoá</b> sau ${PETS.XP[3]} lần. Đã tiến hoá: ${G.cards.filter(c=>own(c.id)&&pSt(c.id)===3&&c.nhom!=='B').length} pet.</p>
   <div class="row" style="margin-top:10px">${groups.map(([k,t])=>`<button class="btn sm ${k===f?'pri':''}" data-f="${k}">${t}</button>`).join('')}</div>
   <div class="cardsGrid">${list.map(c=>cardHTML(c,{hideMissing:true})).join('')}</div>`;
   $('#back').onclick=()=>go({v:'map'});
@@ -475,18 +528,19 @@ function showCard(id){
     <div class="eyebrow">${esc(c.nhomTen)} · ${c.doc?'không dùng trực tiếp':RARN[c.rar]}</div><h2>${c.id} – ${esc(c.ten)}</h2>
     <p style="margin:0"><b>Khi thấy:</b> <span class="math">${esc(c.khi)}</span></p>
     <p style="margin:0"><b>Rút ra:</b> <span class="math">${esc(c.ra)}</span></p>
-    ${has?`<p class="muted" style="margin:0">Bạn có ${S.cards[id]} thẻ này.</p>`:c.nhom==='B'?`<p class="muted" style="margin:0">Thẻ huyền thoại: nhận ở Phòng Thí Nghiệm Tách Lớp.</p>`:`<p class="muted" style="margin:0">Chưa có. In ngay với 30 tinh thể, hoặc mở gói thẻ.</p>`}
+    ${has?(()=>{ const x=pXP(id), s=pSt(id), nx=s<3?PETS.XP[s+1]:null; return `<div class="pcard"><span class="pbig">${pSVG(id)}</span><div><div class="eyebrow">Pet · hệ ${PETS.info(id).he}</div><b style="font-family:var(--f-display);font-size:17px">${esc(pName(id))}</b><div class="muted" style="font-size:13px">Dạng ${PETS.STAGE[s]}${nx?` · ${x}/${nx} lần xuất chiêu để tiến hoá`:' · đã tiến hoá hoàn toàn'}</div>${nx?`<div class="bar" style="margin-top:6px"><i style="width:${Math.min(100,(x-PETS.XP[s])/(nx-PETS.XP[s])*100)}%"></i></div>`:''}${buddyId()===id?'<div class="tag done" style="margin-top:8px;display:inline-block">Đang đồng hành</div>':'<button class="btn sm" id="bud" style="margin-top:8px">Chọn làm pet đồng hành</button>'}</div></div>`; })()+`<p class="muted" style="margin:0">Bạn có ${S.cards[id]} thẻ này. Gắn đúng thẻ khi lắp ráp chứng minh, pet sẽ xuất chiêu và lớn lên.</p>`:c.nhom==='B'?`<p class="muted" style="margin:0">Thẻ huyền thoại: nhận ở Phòng Thí Nghiệm Tách Lớp.</p>`:`<p class="muted" style="margin:0">Chưa có. In ngay với 30 tinh thể, hoặc mở gói thẻ.</p>`}
     <div class="row">${!has&&c.nhom!=='B'?`<button class="btn amb" id="pr">In thẻ (30)</button>`:''}<button class="btn" id="cl">Đóng</button></div></div></div>`);
   $('#cl').onclick=closeOv; const p=$('#pr'); if(p) p.onclick=()=>{ if(printCard(id)){ closeOv(); render(); } };
+  const bd=$('#bud'); if(bd) bd.onclick=()=>{ S.buddy=id; save(); sOk(); toast(pName(id)+' đã thành pet đồng hành'); showCard(id); render(); };
 }
 function printCard(id){ if(S.gems<30){ toast('Không đủ tinh thể'); sBad(); return false;} S.gems-=30; S.cards[id]=(S.cards[id]||0)+1; save(); sOk(); toast('Đã in thẻ '+id); hud(); return true; }
 // ---------- máy in thẻ / gói thẻ
 function shop(){
   const pool=G.cards.filter(c=>c.nhom!=='B');
   const miss=pool.filter(c=>!own(c.id));
-  overlay(`<div class="eyebrow">Máy in thẻ</div><h2>Gói tín hiệu tri thức</h2>
-    <p class="muted" style="margin:0">Mỗi gói có 3 thẻ ngẫu nhiên (không gồm thẻ huyền thoại). Thẻ trùng được hoàn 10 tinh thể. Hoặc in đúng thẻ bạn cần với 30 tinh thể.</p>
-    <div class="row"><button class="btn amb" id="op">Mở gói (40)</button><span class="muted">Bạn có ${S.gems} tinh thể · còn thiếu ${miss.length} thẻ thường</span></div>
+  overlay(`<div class="eyebrow">Máy in thẻ · trạm bắt pet</div><h2>Gói tín hiệu tri thức</h2>
+    <p class="muted" style="margin:0">Mỗi gói bắt được 3 pet tri thức ngẫu nhiên – mỗi pet là một thẻ (không gồm thần long huyền thoại). Thẻ trùng được hoàn 10 tinh thể. Hoặc in đúng thẻ bạn cần với 30 tinh thể.</p>
+    <div class="row"><button class="btn amb" id="op">Bắt pet (40)</button><span class="muted">Bạn có ${S.gems} tinh thể · còn thiếu ${miss.length} thẻ thường</span></div>
     <div id="pk"></div>
     ${miss.length?`<div><b style="font-family:var(--f-display)">In thẻ còn thiếu</b><div class="row" style="margin-top:6px">${miss.map(c=>`<button class="mini" style="${cvar(c)}" data-pr="${c.id}"><span class="code">${c.id}</span>${esc(c.ten)}</button>`).join('')}</div></div>`:''}
     <div class="row"><span class="sp"></span><button class="btn" id="cl">Đóng</button></div>`, true);
@@ -496,7 +550,7 @@ function shop(){
     S.gems-=40; const got=[];
     for(let i=0;i<3;i++){ const w=pool.map(c=>(c.rar===3?1:2)*(own(c.id)?1:3)); let r=Math.random()*w.reduce((a,b)=>a+b,0), k=0; while(r>w[k]){ r-=w[k]; k++; } const c=pool[k]; if(own(c.id)) S.gems+=10; S.cards[c.id]=(S.cards[c.id]||0)+1; got.push(c); }
     save(); sWin(); hud();
-    $('#pk').innerHTML=`<div class="pack">${got.map(c=>cardHTML(c,{noCount:true})).join('')}</div>`;
+    $('#pk').innerHTML=`<div class="catch">${got.map((c,i)=>`<div class="cball" style="--c:${COL[c.nhom]};animation-delay:${i*.35}s"><span class="orb" style="animation-delay:${i*.35}s"></span><span class="cpet" style="animation-delay:${i*.35+.7}s">${pSVG(c.id)}</span><b style="animation-delay:${i*.35+.8}s">${(S.cards[c.id]===1)?'MỚI! ':''}${esc(pName(c.id))}</b><small style="animation-delay:${i*.35+.8}s">thẻ ${c.id} · ${esc(c.ten)}</small></div>`).join('')}</div>`;
   };
   document.querySelectorAll('[data-pr]').forEach(b=>b.onclick=()=>{ if(printCard(b.dataset.pr)) shop(); });
 }
@@ -674,7 +728,7 @@ function trayHTML(title){
   const hand=G.cards.filter(c=>own(c.id)&&(M.tab==='all'||c.nhom===M.tab));
   return `<div class="tray"><div class="row"><b style="font-family:var(--f-display)">${title}</b><span class="muted" style="font-size:12px">(${hand.length} thẻ)</span></div>
     <div class="tabs">${TRAYG.map(([k,t])=>`<button class="${M.tab===k?'on':''}" data-t="${k}">${t}</button>`).join('')}</div>
-    <div class="hand">${hand.map(c=>`<button class="mini" style="${cvar(c)}" data-c="${c.id}" title="${esc(c.ra)}"><span class="code">${c.id}</span>${esc(c.ten)}</button>`).join('')}</div></div>`;
+    <div class="hand">${hand.map(c=>`<button class="mini" style="${cvar(c)}" data-c="${c.id}" title="${esc(c.ra)}"><span class="mpet">${pSVG(c.id)}</span><span class="code">${c.id}</span>${esc(c.ten)}</button>`).join('')}</div></div>`;
 }
 function mStep3(el){
   const m=M.m;
@@ -766,7 +820,7 @@ function altReview(){
 function plug(id, btn){
   const s=M.m.steps[M.cur];
   if(s.codes.includes(id) && !M.filled[M.cur].includes(id)){
-    M.filled[M.cur].push(id); sOk();
+    M.filled[M.cur].push(id); sOk(); petGain(id, btn);
     if(s.codes.every(c=>M.filled[M.cur].includes(c))){ M.cur++; autoAdvance(); }
     render();
   } else { heatUp(); btn.classList.add('wrong'); toast(id+' không khớp khâu này – thử thẻ khác'); setTimeout(render,350); }
