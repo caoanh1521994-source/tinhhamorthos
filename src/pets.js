@@ -5,24 +5,13 @@ window.PETS = (function () {
     T: { loai: 'Chim', he: 'Phong', c: '#ff9b57' }, S: { loai: 'Thỏ', he: 'Quang', c: '#ffc04d' }, P: { loai: 'Tắc kè', he: 'Mộc', c: '#7ee08a' },
     Q: { loai: 'Cú', he: 'Băng', c: '#4fd2e6' }, K: { loai: 'Kỳ nhông', he: 'Ảo', c: '#a98bff' }, B: { loai: 'Thần long', he: 'Tinh tú', c: '#ffd27a' },
   };
-  const TAG = {
-    G1: 'Nội Tiếp', G2: 'Nửa Tròn', G3: 'Tiếp Dây', G4: 'Phụ Bù', G5: 'So Le', G6: 'Cân Cân', G7: 'Tổng Ba', G8: 'Phân Giác',
-    V1: 'Hệ Thức', V2: 'Huyền Tâm', V3: 'Sin Cos', V4: 'Pytago', V5: 'Chữ Nhật',
-    N1: 'Nhìn Vuông', N2: 'Đọc Thêm', N3: 'Bù Đối', N4: 'Kính Dây', N5: 'Trung Trực',
-    T1: 'Bán Kính', T2: 'Cắt Nhau', T3: 'Hai Đầu',
-    S1: 'Đồng Dạng', S2: 'Tích Chéo', S3: 'Vuông Dạng', S4: 'Bằng Nhau',
-    P1: 'Thales', P2: 'Trung Bình', P3: 'Cùng Vuông', P4: 'Bình Hành', P5: 'Phân Giác',
-    Q1: 'Trực Tâm', Q2: 'Ngoại Tâm',
-    K1: 'Thẳng Hàng', K2: 'Trung Điểm', K3: 'Vuông Góc', K4: 'Song Song', K5: 'Đồng Quy', K6: 'Cân Đối',
-    B1: 'Hình Thang', B2: 'Chia Đôi', B3: 'Hai Chéo', B4: 'Ba Tiếp', B5: 'Đường Kính', B6: 'Trung Tuyến', B7: 'Chung Đỉnh',
-  };
   const ACC = ['#fff3a0', '#ff9bd2', '#9be7ff', '#c6ff9b', '#ffd1a1', '#d9c2ff', '#ffffff', '#ffb3b3'];
-  const STAGE = ['', 'Bé', 'Lớn', 'Tiến hoá'];
+  const STAGE = ['', 'Cấp 1', 'Cấp 2', 'Cấp 3'];
   const XP = [0, 0, 3, 8]; // mốc kinh nghiệm để lên dạng 2, 3
   const hx = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16));
   const mix = (a, b, t) => { const A = hx(a), B = hx(b); return '#' + A.map((v, i) => Math.round(v + (B[i] - v) * t).toString(16).padStart(2, '0')).join(''); };
   const OL = '#1d2a5c';
-  const info = id => { const g = id[0], s = SP[g], i = +id.slice(1) - 1; return { id, g, i, loai: s.loai, he: s.he, name: s.loai + ' ' + (TAG[id] || id), c: s.c, acc: ACC[i % ACC.length] }; };
+  const info = id => { const g = id[0], s = SP[g], i = +id.slice(1) - 1; return { id, g, i, loai: s.loai, he: s.he, name: s.loai + ' ' + id, c: s.c, acc: ACC[i % ACC.length] }; };
 
   function eyes(x1, x2, y, r, sil) {
     if (sil) return '';

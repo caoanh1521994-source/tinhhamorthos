@@ -1210,24 +1210,13 @@ window.PETS = (function () {
     T: { loai: 'Chim', he: 'Phong', c: '#ff9b57' }, S: { loai: 'Thỏ', he: 'Quang', c: '#ffc04d' }, P: { loai: 'Tắc kè', he: 'Mộc', c: '#7ee08a' },
     Q: { loai: 'Cú', he: 'Băng', c: '#4fd2e6' }, K: { loai: 'Kỳ nhông', he: 'Ảo', c: '#a98bff' }, B: { loai: 'Thần long', he: 'Tinh tú', c: '#ffd27a' },
   };
-  const TAG = {
-    G1: 'Nội Tiếp', G2: 'Nửa Tròn', G3: 'Tiếp Dây', G4: 'Phụ Bù', G5: 'So Le', G6: 'Cân Cân', G7: 'Tổng Ba', G8: 'Phân Giác',
-    V1: 'Hệ Thức', V2: 'Huyền Tâm', V3: 'Sin Cos', V4: 'Pytago', V5: 'Chữ Nhật',
-    N1: 'Nhìn Vuông', N2: 'Đọc Thêm', N3: 'Bù Đối', N4: 'Kính Dây', N5: 'Trung Trực',
-    T1: 'Bán Kính', T2: 'Cắt Nhau', T3: 'Hai Đầu',
-    S1: 'Đồng Dạng', S2: 'Tích Chéo', S3: 'Vuông Dạng', S4: 'Bằng Nhau',
-    P1: 'Thales', P2: 'Trung Bình', P3: 'Cùng Vuông', P4: 'Bình Hành', P5: 'Phân Giác',
-    Q1: 'Trực Tâm', Q2: 'Ngoại Tâm',
-    K1: 'Thẳng Hàng', K2: 'Trung Điểm', K3: 'Vuông Góc', K4: 'Song Song', K5: 'Đồng Quy', K6: 'Cân Đối',
-    B1: 'Hình Thang', B2: 'Chia Đôi', B3: 'Hai Chéo', B4: 'Ba Tiếp', B5: 'Đường Kính', B6: 'Trung Tuyến', B7: 'Chung Đỉnh',
-  };
   const ACC = ['#fff3a0', '#ff9bd2', '#9be7ff', '#c6ff9b', '#ffd1a1', '#d9c2ff', '#ffffff', '#ffb3b3'];
-  const STAGE = ['', 'Bé', 'Lớn', 'Tiến hoá'];
+  const STAGE = ['', 'Cấp 1', 'Cấp 2', 'Cấp 3'];
   const XP = [0, 0, 3, 8]; // mốc kinh nghiệm để lên dạng 2, 3
   const hx = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16));
   const mix = (a, b, t) => { const A = hx(a), B = hx(b); return '#' + A.map((v, i) => Math.round(v + (B[i] - v) * t).toString(16).padStart(2, '0')).join(''); };
   const OL = '#1d2a5c';
-  const info = id => { const g = id[0], s = SP[g], i = +id.slice(1) - 1; return { id, g, i, loai: s.loai, he: s.he, name: s.loai + ' ' + (TAG[id] || id), c: s.c, acc: ACC[i % ACC.length] }; };
+  const info = id => { const g = id[0], s = SP[g], i = +id.slice(1) - 1; return { id, g, i, loai: s.loai, he: s.he, name: s.loai + ' ' + id, c: s.c, acc: ACC[i % ACC.length] }; };
 
   function eyes(x1, x2, y, r, sil) {
     if (sil) return '';
@@ -1350,7 +1339,7 @@ const G = window.GAME;
 const CARD = Object.fromEntries(G.cards.map(c => [c.id, c]));
 const MIS = Object.fromEntries(G.missions.map(m => [m.id, m]));
 const COL = { G:'#ff7a85', V:'#3fd6c2', N:'#6aa8ff', T:'#ff9b57', S:'#ffc04d', P:'#7ee08a', Q:'#4fd2e6', K:'#a98bff', B:'#ffd27a' };
-const RARN = { 1:'Phổ thông', 2:'Kỹ thuật', 3:'Hiếm', 4:'Huyền thoại' };
+const RARN = { 1:'Bậc 1', 2:'Bậc 2', 3:'Bậc 3', 4:'Bậc 4' };
 const STARTER = G.cards.filter(c => 'GVKP'.includes(c.nhom)).map(c => c.id);
 const ZONES = [
   { key:'train', ten:'Phòng Mô Phỏng', sub:'Huấn luyện kỹ sư tập sự – làm quen Máy Lắp Ráp', ids:['2.4'] },
@@ -1377,7 +1366,7 @@ function petPop(id, from, txt){ try{ const r=from&&from.getBoundingClientRect?fr
   d.innerHTML=`<span class="ring"></span>${pSVG(id)}<b>${txt||pName(id)+' xuất chiêu!'}</b>`; document.body.appendChild(d); setTimeout(()=>d.remove(),1300); }catch(e){} }
 function petGain(id, from){ S.xp=S.xp||{}; const before=pSt(id); S.xp[id]=pXP(id)+1; save(); petPop(id, from); const after=pSt(id);
   if(after>before) setTimeout(()=>{ sWin(); document.querySelectorAll('.evopop').forEach(x=>x.remove()); const d=document.createElement('div'); d.className='evopop'; d.setAttribute('role','status');
-    d.innerHTML=`<div class="eyebrow">Pet tiến hoá!</div><div class="evrow"><span class="old">${PETS.svg(id,before)}</span><span class="arr">➜</span><span class="new">${PETS.svg(id,after)}</span></div><b>${esc(pName(id))} lên dạng ${PETS.STAGE[after]}</b>`;
+    d.innerHTML=`<div class="eyebrow">Pet lên cấp!</div><div class="evrow"><span class="old">${PETS.svg(id,before)}</span><span class="arr">➜</span><span class="new">${PETS.svg(id,after)}</span></div><b>${esc(pName(id))} lên ${PETS.STAGE[after]}</b>`;
     document.body.appendChild(d); setTimeout(()=>d.remove(),3200); }, 450); }
 
 // ---------- âm thanh
@@ -1481,7 +1470,7 @@ function vCards(a){
   const groups=[['all','Tất cả'],['G','Góc'],['V','Tam giác vuông'],['N','Đường tròn'],['T','Tiếp tuyến'],['S','Đồng dạng'],['P','Song song'],['Q','Đồng quy'],['K','Đổi kết luận'],['B','Huyền thoại']];
   const list=G.cards.filter(c=>f==='all'||c.nhom===f);
   a.innerHTML=`<div class="row" style="margin-top:8px"><button class="btn sm" id="back">← Sơ đồ tàu</button><span class="sp"></span><span class="muted">Đã có ${ownedCount()}/45 thẻ</span></div>
-  <h2 style="font-size:28px;margin-top:10px">Bộ sưu tập thẻ & pet tri thức</h2><p class="muted" style="margin:4px 0 0">Mỗi thẻ là một pet. Gắn đúng thẻ khi lắp ráp: pet xuất chiêu, lên dạng <b>Lớn</b> sau ${PETS.XP[2]} lần, <b>Tiến hoá</b> sau ${PETS.XP[3]} lần. Đã tiến hoá: ${G.cards.filter(c=>own(c.id)&&pSt(c.id)===3&&c.nhom!=='B').length} pet.</p>
+  <h2 style="font-size:28px;margin-top:10px">Bộ sưu tập thẻ & pet tri thức</h2><p class="muted" style="margin:4px 0 0">Mỗi thẻ là một pet. Gắn đúng thẻ khi lắp ráp: pet xuất chiêu, lên <b>Cấp 2</b> sau ${PETS.XP[2]} lần, <b>Cấp 3</b> sau ${PETS.XP[3]} lần. Thẻ chia 4 bậc: Bậc 1 (góc, tam giác vuông), Bậc 2 (song song – Thales, đổi kết luận), Bậc 3 (đường tròn, tiếp tuyến, đồng dạng, đồng quy), Bậc 4 (bài toán phụ). Đã đạt Cấp 3: ${G.cards.filter(c=>own(c.id)&&pSt(c.id)===3&&c.nhom!=='B').length} pet.</p>
   <div class="row" style="margin-top:10px">${groups.map(([k,t])=>`<button class="btn sm ${k===f?'pri':''}" data-f="${k}">${t}</button>`).join('')}</div>
   <div class="cardsGrid">${list.map(c=>cardHTML(c,{hideMissing:true})).join('')}</div>`;
   $('#back').onclick=()=>go({v:'map'});
@@ -1494,7 +1483,7 @@ function showCard(id){
     <div class="eyebrow">${esc(c.nhomTen)} · ${c.doc?'không dùng trực tiếp':RARN[c.rar]}</div><h2>${c.id} – ${esc(c.ten)}</h2>
     <p style="margin:0"><b>Khi thấy:</b> <span class="math">${esc(c.khi)}</span></p>
     <p style="margin:0"><b>Rút ra:</b> <span class="math">${esc(c.ra)}</span></p>
-    ${has?(()=>{ const x=pXP(id), s=pSt(id), nx=s<3?PETS.XP[s+1]:null; return `<div class="pcard"><span class="pbig">${pSVG(id)}</span><div><div class="eyebrow">Pet · hệ ${PETS.info(id).he}</div><b style="font-family:var(--f-display);font-size:17px">${esc(pName(id))}</b><div class="muted" style="font-size:13px">Dạng ${PETS.STAGE[s]}${nx?` · ${x}/${nx} lần xuất chiêu để tiến hoá`:' · đã tiến hoá hoàn toàn'}</div>${nx?`<div class="bar" style="margin-top:6px"><i style="width:${Math.min(100,(x-PETS.XP[s])/(nx-PETS.XP[s])*100)}%"></i></div>`:''}${buddyId()===id?'<div class="tag done" style="margin-top:8px;display:inline-block">Đang đồng hành</div>':'<button class="btn sm" id="bud" style="margin-top:8px">Chọn làm pet đồng hành</button>'}</div></div>`; })()+`<p class="muted" style="margin:0">Bạn có ${S.cards[id]} thẻ này. Gắn đúng thẻ khi lắp ráp chứng minh, pet sẽ xuất chiêu và lớn lên.</p>`:c.nhom==='B'?`<p class="muted" style="margin:0">Thẻ huyền thoại: nhận ở Phòng Thí Nghiệm Tách Lớp.</p>`:`<p class="muted" style="margin:0">Chưa có. In ngay với 30 tinh thể, hoặc mở gói thẻ.</p>`}
+    ${has?(()=>{ const x=pXP(id), s=pSt(id), nx=s<3?PETS.XP[s+1]:null; return `<div class="pcard"><span class="pbig">${pSVG(id)}</span><div><div class="eyebrow">Pet · hệ ${PETS.info(id).he}</div><b style="font-family:var(--f-display);font-size:17px">${esc(pName(id))}</b><div class="muted" style="font-size:13px">${PETS.STAGE[s]}${nx?` · ${x}/${nx} lần xuất chiêu để lên cấp`:' · đã đạt cấp cao nhất'}</div>${nx?`<div class="bar" style="margin-top:6px"><i style="width:${Math.min(100,(x-PETS.XP[s])/(nx-PETS.XP[s])*100)}%"></i></div>`:''}${buddyId()===id?'<div class="tag done" style="margin-top:8px;display:inline-block">Đang đồng hành</div>':'<button class="btn sm" id="bud" style="margin-top:8px">Chọn làm pet đồng hành</button>'}</div></div>`; })()+`<p class="muted" style="margin:0">Bạn có ${S.cards[id]} thẻ này. Gắn đúng thẻ khi lắp ráp chứng minh, pet sẽ xuất chiêu và lớn lên.</p>`:c.nhom==='B'?`<p class="muted" style="margin:0">Thẻ huyền thoại: nhận ở Phòng Thí Nghiệm Tách Lớp.</p>`:`<p class="muted" style="margin:0">Chưa có. In ngay với 30 tinh thể, hoặc mở gói thẻ.</p>`}
     <div class="row">${!has&&c.nhom!=='B'?`<button class="btn amb" id="pr">In thẻ (30)</button>`:''}<button class="btn" id="cl">Đóng</button></div></div></div>`);
   $('#cl').onclick=closeOv; const p=$('#pr'); if(p) p.onclick=()=>{ if(printCard(id)){ closeOv(); render(); } };
   const bd=$('#bud'); if(bd) bd.onclick=()=>{ S.buddy=id; save(); sOk(); toast(pName(id)+' đã thành pet đồng hành'); showCard(id); render(); };
