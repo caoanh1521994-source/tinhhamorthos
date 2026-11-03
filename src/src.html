@@ -341,6 +341,12 @@ svg.board{display:block;width:100%;height:auto;touch-action:none;user-select:non
 @keyframes evp{0%{opacity:0;transform:translate(-50%,-20px) scale(.8)}10%,85%{opacity:1;transform:translate(-50%,0) scale(1)}100%{opacity:0;transform:translate(-50%,-10px)}}
 .evo{text-align:center}.evrow{display:flex;align-items:center;justify-content:center;gap:10px;margin:10px 0}.evrow svg{width:130px;height:130px}.evrow .old{opacity:.6;filter:grayscale(.4)}.evrow .new{animation:out .7s .2s both}.evrow .arr{font-size:28px;color:var(--holo)}
 @media (max-width:640px){.mascot.withpet{grid-template-columns:64px 1fr}.mascot.withpet .buddy{grid-column:1/-1}.cball{width:100%;max-width:220px}}
+
+/* chế độ giáo viên */
+body.gv .hud{box-shadow:inset 0 -2px 0 #ffb547}
+.gvl{margin:4px 0 8px;padding-left:22px;line-height:1.55;font-size:14px}.gvl li{margin:5px 0}.gvl b.k{color:var(--ok)}.gvl b.x{color:var(--bad)}
+.gvl .kq{font-family:var(--f-display);font-size:12px;font-weight:700}.gvl .kq.tac{color:var(--bad)}.gvl .kq.duoc{color:var(--ok)}.gvl .kq.dai{color:#ffb547}
+.tkopt.gvok{border-color:#ffb547}.gvtag{margin-left:auto;flex:none;font-size:12px;font-weight:700;color:#ffb547;border:1px solid #ffb547;border-radius:999px;padding:0 8px}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 
@@ -354,6 +360,7 @@ svg.board{display:block;width:100%;height:auto;touch-action:none;user-select:non
     <button class="btn sm amb" id="bShop">Máy in thẻ</button>
     <button class="btn sm" id="bMus" aria-pressed="false">Nhạc: tắt</button>
     <button class="btn sm" id="bSnd" aria-pressed="false">Hiệu ứng: tắt</button>
+    <button class="btn sm" id="bGV">Giáo viên</button>
   </nav>
 </div></div>
 <canvas id="sky" aria-hidden="true"></canvas>
@@ -396,10 +403,49 @@ const LS = 'orthos-v1';
 const fresh = () => ({ gems:150, cards:Object.fromEntries(STARTER.map(id=>[id,1])), done:{}, tk:{}, xp:{}, buddy:null, sw:'ggm', intro:false, snd:false });
 let S = fresh();
 const load = () => { try { const t = localStorage.getItem(LS); if (t) S = Object.assign(fresh(), JSON.parse(t)); } catch(e){} };
-const save = () => { try { localStorage.setItem(LS, JSON.stringify(S)); } catch(e){} };
+const save = () => { if(GV) return; try { localStorage.setItem(LS, JSON.stringify(S)); } catch(e){} };
+// ---------- chế độ giáo viên (chỉ lưu mã băm SHA-256, không lưu mật khẩu)
+const TEACHER_HASH='808175f36c0d03b09440be75510fb732776bd390d8aeed054bf96b6d7654c886';
+let GV=false; try{ GV=sessionStorage.getItem('orthos-gv')==='1'; }catch(e){}
+function sha256(str){ const K=[1116352408,1899447441,3049323471,3921009573,961987163,1508970993,2453635748,2870763221,3624381080,310598401,607225278,1426881987,1925078388,2162078206,2614888103,3248222580,3835390401,4022224774,264347078,604807628,770255983,1249150122,1555081692,1996064986,2554220882,2821834349,2952996808,3210313671,3336571891,3584528711,113926993,338241895,666307205,773529912,1294757372,1396182291,1695183700,1986661051,2177026350,2456956037,2730485921,2820302411,3259730800,3345764771,3516065817,3600352804,4094571909,275423344,430227734,506948616,659060556,883997877,958139571,1322822218,1537002063,1747873779,1955562222,2024104815,2227730452,2361852424,2428436474,2756734187,3204031479,3329325298];
+  const b=Array.from(new TextEncoder().encode(str)), l=b.length*8; b.push(0x80); while(b.length%64!==56) b.push(0); for(let i=7;i>=0;i--) b.push(Math.floor(l/Math.pow(2,i*8))&255);
+  let H=[1779033703,3144134277,1013904242,2773480762,1359893119,2600822924,528734635,1541459225]; const r=(x,n)=>(x>>>n)|(x<<(32-n));
+  for(let o=0;o<b.length;o+=64){ const w=new Array(64); for(let i=0;i<16;i++) w[i]=(b[o+4*i]<<24)|(b[o+4*i+1]<<16)|(b[o+4*i+2]<<8)|b[o+4*i+3];
+    for(let i=16;i<64;i++){ const s0=r(w[i-15],7)^r(w[i-15],18)^(w[i-15]>>>3), s1=r(w[i-2],17)^r(w[i-2],19)^(w[i-2]>>>10); w[i]=(w[i-16]+s0+w[i-7]+s1)|0; }
+    let [a,bb,c,d,e,f,g,hh]=H; for(let i=0;i<64;i++){ const t1=(hh+(r(e,6)^r(e,11)^r(e,25))+((e&f)^(~e&g))+K[i]+w[i])|0, t2=((r(a,2)^r(a,13)^r(a,22))+((a&bb)^(a&c)^(bb&c)))|0; hh=g; g=f; f=e; e=(d+t1)|0; d=c; c=bb; bb=a; a=(t1+t2)|0; }
+    H=H.map((v,i)=>(v+[a,bb,c,d,e,f,g,hh][i])|0); }
+  return H.map(v=>(v>>>0).toString(16).padStart(8,'0')).join(''); }
+function gvPanel(){
+  if(!GV){
+    overlay(`<div class="eyebrow">Chế độ giáo viên</div><h2>Nhập mật khẩu</h2><p class="muted" style="margin:0">Mở toàn bộ khoang, bài, thẻ và đáp án để kiểm tra. Khi bật, game <b>không ghi</b> vào tiến độ của học sinh trên máy này.</p>
+      <form id="gvf" class="row" autocomplete="off"><input id="gvp" type="password" inputmode="numeric" placeholder="Mật khẩu" aria-label="Mật khẩu giáo viên" style="flex:1;min-width:160px;font-size:16px;padding:9px 12px;border-radius:6px;border:1px solid var(--line);background:#0b1430;color:inherit"><button class="btn pri" type="submit">Mở</button></form>
+      <p id="gve" class="muted" style="margin:0;min-height:1.2em"></p><div class="row"><span class="sp"></span><button class="btn" id="cl" type="button">Đóng</button></div>`);
+    setTimeout(()=>{ const i=$('#gvp'); if(i) i.focus(); },50);
+    $('#cl').onclick=closeOv;
+    $('#gvf').onsubmit=e=>{ e.preventDefault(); if(sha256('tinhhamorthos:'+$('#gvp').value.trim())===TEACHER_HASH){ GV=true; try{ sessionStorage.setItem('orthos-gv','1'); }catch(e){} closeOv(); sOk(); toast('Đã bật chế độ giáo viên'); render(); } else { sBad(); $('#gve').textContent='✗ Sai mật khẩu'; $('#gvp').select(); } };
+    return; }
+  overlay(`<div class="eyebrow">Chế độ giáo viên · đang bật</div><h2>Kiểm tra toàn bộ game</h2>
+    <ul style="margin:0;padding-left:20px;line-height:1.7"><li>Mọi khoang, mọi bài (kể cả ví dụ mẫu theo thứ tự) đều mở.</li><li>Có đủ 45 thẻ trong khay và bộ sưu tập.</li><li>Trong mỗi bài có nút <b>Đáp án GV</b>, <b>Điền đáp án</b> (bước 2) và <b>Tự lắp</b> (bước 3).</li><li>Xưởng Thiết Kế đánh dấu sẵn lệnh dựng đúng.</li><li>Không ghi vào tiến độ học sinh; thoát ra là trở lại đúng tiến độ cũ.</li></ul>
+    <div class="row"><button class="btn amb" id="gvx">Thoát chế độ giáo viên</button><span class="sp"></span><button class="btn" id="cl">Đóng</button></div>`);
+  $('#cl').onclick=closeOv;
+  $('#gvx').onclick=()=>{ GV=false; try{ sessionStorage.removeItem('orthos-gv'); }catch(e){} S=fresh(); load(); M=null; closeOv(); toast('Đã thoát chế độ giáo viên'); go({v:'map'}); };
+}
+function gvKey(m){
+  const d=m.deep;
+  overlay(`<div class="eyebrow">Đáp án giáo viên · Bài ${m.id}</div><h2 style="margin:0">${esc(m.kl)}</h2>
+    <div class="gtkl"><span class="lb gt">GT</span><ul>${m.gt.map(t=>`<li>${esc(t)}</li>`).join('')}</ul><span class="lb kl">KL</span><ul><li>${esc(m.kl)}</li></ul></div>
+    <div class="eyebrow">Bước 2 · Nạp / loại thẻ</div>
+    <ol class="gvl">${m.inputs.map(x=>`<li><b class="${x.keep?'k':'x'}">${x.keep?'✓ NẠP':'✗ LOẠI'}</b> ${(x.code||'').split(/\s*,\s*/).filter(Boolean).map(badge).join('')} ${esc(x.text)}${!x.keep&&x.why?`<br><span class="muted">Loại vì: ${esc(x.why)}</span>`:''}</li>`).join('')}</ol>
+    <div class="eyebrow">Bước 3 · Chuỗi chứng minh mẫu</div>
+    <ol class="gvl">${m.steps.map(s=>`<li><span class="math">${esc(s.cm)}</span><br><span class="muted">Lý do: ${esc(s.ld)}</span> ${s.codes.map(badge).join('')}</li>`).join('')}</ol>
+    ${d?`<div class="eyebrow">Bước 4 · Các hướng</div><ol class="gvl">${d.huong.map(x=>`<li><b>${esc(x.ten)}</b> – <span class="kq ${x.kq}">${{tac:'BẾ TẮC',dai:'DÀI',duoc:'ĐI ĐƯỢC'}[x.kq]}</span><br><span class="muted">${x.y.map(esc).join(' · ')}</span></li>`).join('')}</ol>`:''}
+    <div class="qa"><div class="r"><span class="lab">NHÌN LẠI</span><span><span class="q">${esc(m.nhin)}</span><br><span class="a">${esc(m.nhinDap)}</span></span></div></div>
+    <div class="row"><span class="sp"></span><button class="btn" id="cl">Đóng</button></div>`, true);
+  $('#cl').onclick=closeOv;
+}
 const $ = s => document.querySelector(s);
 const esc = t => String(t).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const own = id => (S.cards[id]||0) > 0;
+const own = id => GV || (S.cards[id]||0) > 0;
 const ownedCount = () => G.cards.filter(c => own(c.id)).length;
 // ---------- pet
 const pXP = id => (S.xp&&S.xp[id])||0;
@@ -452,17 +498,17 @@ const badge = id => { const c=CARD[id]; return c?`<span class="badge" style="${c
 const bot = botSVG();
 const say = (t, who='PÔLYA-7') => `<div class="say">${bot}<p><b>${who}</b><br>${t}</p></div>`;
 function toast(t){ document.querySelectorAll('.toast').forEach(x=>x.remove()); const d=document.createElement('div'); d.className='toast'; d.textContent=t; document.body.appendChild(d); setTimeout(()=>d.remove(),2200); }
-function hud(){ $('#gems').textContent=S.gems; $('#ncards').textContent=ownedCount(); $('#nfix').textContent=Object.keys(S.done).length; $('#bSnd').textContent='Hiệu ứng: '+(S.snd?'bật':'tắt'); $('#bMus').textContent='Nhạc: '+(S.music?'bật':'tắt'); $('#bMus').setAttribute('aria-pressed', !!S.music); $('#bSnd').setAttribute('aria-pressed', S.snd); }
+function hud(){ $('#gems').textContent=S.gems; $('#ncards').textContent=ownedCount(); $('#nfix').textContent=Object.keys(S.done).length; $('#bSnd').textContent='Hiệu ứng: '+(S.snd?'bật':'tắt'); $('#bMus').textContent='Nhạc: '+(S.music?'bật':'tắt'); $('#bMus').setAttribute('aria-pressed', !!S.music); $('#bSnd').setAttribute('aria-pressed', S.snd);  const gb=$('#bGV'); if(gb){ gb.textContent=GV?'GV: đang bật':'Giáo viên'; gb.classList.toggle('amb',GV); } document.body.classList.toggle('gv',GV); }
 const stars = n => `<span class="stars">${[1,2,3].map(i=>i<=n?'★':'<span class="off">★</span>').join('')}</span>`;
 function overlay(html, wide){ $('#ov').innerHTML=`<div class="ov"><div class="box ${wide?'wide':''}">${html}</div></div>`; }
 const closeOv = () => { $('#ov').innerHTML=''; };
 
 // ---------- trạng thái mở khoá
 const trained = () => !!S.done['2.4'];
-function zoneOpen(z){ return z.key==='train' || z.key==='tk' || trained(); }
+function zoneOpen(z){ return GV || z.key==='train' || z.key==='tk' || trained(); }
 const zDone = z => z.tk ? z.ids.filter(id=>S.tk&&S.tk[id]).length : z.ids.filter(id=>S.done[id]).length;
 function openZone(k){ const z=ZONES.find(x=>x.key===k); if(!zoneOpen(z)){ toast('Hoàn thành Phòng Mô Phỏng trước'); return; } go(z.tk?{v:'design', i:0}:{v:'zone', z:z.key}); }
-function misOpen(id){ const m=MIS[id]; if(m.loai==='train') return true; if(!trained()) return false; if(m.loai==='lab'){ const k=G.vdOrder.indexOf(id); return k===0 || !!S.done[G.vdOrder[k-1]]; } return true; }
+function misOpen(id){ if(GV) return true; const m=MIS[id]; if(m.loai==='train') return true; if(!trained()) return false; if(m.loai==='lab'){ const k=G.vdOrder.indexOf(id); return k===0 || !!S.done[G.vdOrder[k-1]]; } return true; }
 const needCards = m => [...new Set(m.steps.flatMap(s=>s.codes))];
 
 // ---------- màn hình chính
@@ -627,7 +673,7 @@ function dPlay(){ const pb=DZ.pb, N=pb.steps.length, box=$('#tkplay'), n=DZ.step
   if(DZ.phase==='build'){
     box.innerHTML=`<div class="row"><div class="eyebrow">Lệnh dựng ${n+1}/${N}</div><span class="sp"></span><span class="muted" style="font-size:12.5px">Lỗi: <b style="color:${DZ.mist?'var(--bad,#ff6b7a)':'inherit'}">${DZ.mist}</b></span></div>${dots}
       <p style="margin:8px 0 10px"><b>Bước nào dựng được ngay bây giờ?</b></p>
-      <div class="tkch">${DZ.ch.map((c,i)=>`<button class="tkopt" data-c="${i}"><span class="k">${String.fromCharCode(65+i)}</span>${c.t}</button>`).join('')}</div>
+      <div class="tkch">${DZ.ch.map((c,i)=>`<button class="tkopt ${GV&&c.k==='ok'?'gvok':''}" data-c="${i}"><span class="k">${String.fromCharCode(65+i)}</span>${c.t}${GV&&c.k==='ok'?'<span class="gvtag">✓ đúng</span>':''}</button>`).join('')}</div>
       ${DZ.fb?`<p class="tkfb">${DZ.fb}</p>`:''}`;
     box.querySelectorAll('[data-c]').forEach(b=>b.onclick=()=>dPick(DZ.ch[+b.dataset.c]));
   } else if(DZ.phase==='test'){
@@ -682,7 +728,7 @@ const STEPS=['Quét đề','Nạp nguyên liệu','Lắp ráp','Kiểm định']
 function vMis(a){
   const m=M.m;
   const deHTML=m.de.map(t=>`<p class="${t.startsWith(m.yl+')')?'focus':''}">${esc(t)}</p>`).join('');
-  a.innerHTML=`<div class="row" style="margin-top:8px"><button class="btn sm" id="back">← Rời máy</button><span class="sp"></span>
+  a.innerHTML=`<div class="row" style="margin-top:8px"><button class="btn sm" id="back">← Rời máy</button>${GV?'<button class="btn sm amb" id="gvk">Đáp án GV</button>':''}<span class="sp"></span>
     <div class="steps">${STEPS.map((s,i)=>`<span class="${i+1===M.step?'on':i+1<M.step?'dn':''}">${i+1}. ${s}</span>`).join('')}</div></div>
   <div class="mission">
     <div class="holo"><div class="eyebrow">${m.loai==='lab'?'Ví dụ mẫu '+m.so:m.loai==='train'?'Mô phỏng':'Mô-đun'} · Bài ${m.id}</div>
@@ -691,6 +737,7 @@ function vMis(a){
     <div class="machine" id="mc"></div>
   </div>`;
   $('#back').onclick=()=>{ M=null; go({v:'zone', z: m.loai==='lab'?'lab':m.loai==='train'?'train':'ch'+m.ch}); };
+  const gk=$('#gvk'); if(gk) gk.onclick=()=>gvKey(m);
   ({1:mStep1,2:mStep2,3:mStep3,4:mStep4})[M.step]($('#mc'));
 }
 const heatHTML=()=>`<div class="heat">NHIỆT ĐỘ MÁY <span class="cells">${[0,1,2,3,4,5].map(i=>`<i class="${i<M.heat?'on':''}"></i>`).join('')}</span><span class="sp"></span>${stars(starsNow())}</div>`;
@@ -716,7 +763,8 @@ function mStep2(el){
         ${M.okAll&&!x.keep&&x.why?`<span class="why">Loại vì: ${esc(x.why)}</span>`:''}</button>`; }).join('')}</div>
     ${M.okAll?(m.hoi?`<div class="qa">${m.hoi.map(r=>`<div class="r"><span class="lab">${esc(r.lab)}</span><span><span class="q">${esc(r.q)}</span><br><span class="a">${esc(r.a)}</span></span></div>`).join('')}</div>`
       :`<div class="qa"><div class="r"><span class="lab">HƯỚNG TỚI</span><span class="a">${esc(m.huong)}</span></div><div class="r"><span class="lab">GIỮ LẠI</span><span class="a">${esc(m.giu)}</span></div><div class="r"><span class="lab">CẦU NỐI</span><span class="a">${esc(m.noi)}</span></div></div>`):''}
-    <div class="row"><span class="sp"></span>${M.okAll?`<button class="btn pri" id="nx">Lắp ráp →</button>`:`<button class="btn pri" id="ck" ${all?'':'disabled'}>Kiểm tra</button>`}</div>`;
+    <div class="row">${GV&&!M.okAll?'<button class="btn sm amb" id="gvf2">GV: Điền đáp án</button>':''}<span class="sp"></span>${M.okAll?`<button class="btn pri" id="nx">Lắp ráp →</button>`:`<button class="btn pri" id="ck" ${all?'':'disabled'}>Kiểm tra</button>`}</div>`;
+  const g2=$('#gvf2'); if(g2) g2.onclick=()=>{ M.sel=m.inputs.map(x=>x.keep?1:0); M.checked=true; M.okAll=true; render(); };
   el.querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>{ if(M.okAll) return; const i=+b.dataset.i; M.sel[i]=M.sel[i]===1?0:1; M.checked=false; beep(520,.04); render(); });
   const ck=$('#ck'); if(ck) ck.onclick=()=>{ const bad=m.inputs.filter((x,i)=>(M.sel[i]?1:0)!==x.keep).length; M.checked=true;
     if(bad){ heatUp(); toast(bad+' thẻ chưa đúng – máy nóng lên'); } else { M.okAll=true; sOk(); toast('Nguyên liệu chuẩn!'); } render(); };
@@ -744,7 +792,8 @@ function mStep3(el){
       return `<div class="st ${ok?'ok':''} ${cur?'cur':''}"><span class="n">${i+1}</span><div><div class="cm">${esc(s.cm)}</div>
         ${ok||cur?`<div class="sockets">${s.codes.map(c=>{ const f=M.filled[i].includes(c); return `<span class="sock ${f?'f':''}" style="${f?cvar(CARD[c]):''}">${f?c:'?'}</span>`; }).join('')||'<span class="muted" style="font-size:12px">liên kết suy luận</span>'}</div>`:''}
         ${ok?`<div class="ld">Lý do: ${esc(s.ld)}</div>`:''}</div></div>`; }).join('')}</div>
-    ${done?`<div class="row"><span class="sp"></span><button class="btn pri" id="nx">Kiểm định →</button></div>`:trayHTML('Khay thẻ')}`;
+    ${done?`<div class="row"><span class="sp"></span><button class="btn pri" id="nx">Kiểm định →</button></div>`:(GV?'<div class="row"><button class="btn sm amb" id="gvf3">GV: Tự lắp cả chuỗi</button></div>':'')+trayHTML('Khay thẻ')}`;
+  const g3=$('#gvf3'); if(g3) g3.onclick=()=>{ M.filled=st.map(s=>s.codes.slice()); M.cur=st.length; sOk(); render(); };
   bind3(el);
   el.querySelectorAll('[data-c]').forEach(b=>b.onclick=()=>plug(b.dataset.c, b));
 }
@@ -870,6 +919,7 @@ function start(data){
   $('#home').onkeydown=e=>{ if(e.key==='Enter') $('#home').onclick(); };
   $('#bCards').onclick=()=>{ M=null; go({v:'cards'}); };
   $('#bShop').onclick=shop;
+  $('#bGV').onclick=gvPanel;
   $('#bSnd').onclick=()=>{ S.snd=!S.snd; save(); hud(); if(S.snd) sOk(); };
   const actx=()=>{ AC = AC || new (window.AudioContext||window.webkitAudioContext)(); if(AC.state==='suspended') AC.resume(); return AC; };
   $('#bMus').onclick=()=>{ S.music=!S.music; save(); hud(); try{ if(S.music) musicStart(actx()); else musicStop(); }catch(e){} };

@@ -28,7 +28,7 @@ function deep(id) {
   const x = PT[id]; if (!x) return null;
   return { huong: x.huong.map(h => ({ ten: clean(h.ten.replace(/^Hướng \d+ – /, '')), kq: h.kq, y: h.y.map(clean) })), binh: (x.binh || []).map(clean) };
 }
-function steps(cm) { return cm.map(([a, l]) => ({ cm: clean(a), ld: stripCodes(l), codes: codesIn(l) })); }
+function steps(cm) { return cm.map(([a, l]) => ({ cm: clean(a), ld: stripCodes(l).replace(/^[;,.\s]+/, ''), codes: codesIn(l) })); }
 const VDORDER = ['4.9', '1.2', '4.5', '5.5', '4.4', '3.10', '1.7', '3.2'];
 const VDBTP = { '4.9': [1], '1.2': [2, 3], '4.5': [5], '5.5': [4], '4.4': [6], '3.10': [], '1.7': [7], '3.2': [] };
 const missions = [];
