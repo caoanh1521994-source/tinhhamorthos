@@ -347,6 +347,12 @@ body.gv .hud{box-shadow:inset 0 -2px 0 #ffb547}
 .gvl{margin:4px 0 8px;padding-left:22px;line-height:1.55;font-size:14px}.gvl li{margin:5px 0}.gvl b.k{color:var(--ok)}.gvl b.x{color:var(--bad)}
 .gvl .kq{font-family:var(--f-display);font-size:12px;font-weight:700}.gvl .kq.tac{color:var(--bad)}.gvl .kq.duoc{color:var(--ok)}.gvl .kq.dai{color:#ffb547}
 .tkopt.gvok{border-color:#ffb547}.gvtag{margin-left:auto;flex:none;font-size:12px;font-weight:700;color:#ffb547;border:1px solid #ffb547;border-radius:999px;padding:0 8px}
+
+/* lưu ý hướng gợi ý + sổ cách giải */
+.gvnote{border-left:3px solid #ffb547;background:rgba(255,181,71,.08);border-radius:4px;padding:8px 12px;font-size:13.5px;line-height:1.5;margin:0 0 10px}
+.gvnote .btn{margin-left:6px}
+.sobai{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-top:12px}
+.soe{border-top:1px solid var(--line);padding:8px 0}.soe ol{margin:6px 0 0;padding-left:22px;line-height:1.55}.soe li{margin:4px 0}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 
@@ -400,7 +406,7 @@ const ZONES = [
   ...G.sectors.map(s => ({ key:'ch'+s.so, so:s.so, ten:['Khoang Động Cơ Vuông Góc','Trạm Trung Tuyến','Đài Quan Sát Nội Tiếp','Cánh Tiếp Tuyến','Lõi Đường Kính'][s.so-1], sub:s.ten, mota:s.mota, y:s.y, ids:s.bai })),
 ];
 const LS = 'orthos-v1';
-const fresh = () => ({ gems:150, cards:Object.fromEntries(STARTER.map(id=>[id,1])), done:{}, tk:{}, xp:{}, buddy:null, sw:'ggm', intro:false, snd:false });
+const fresh = () => ({ gems:150, cards:Object.fromEntries(STARTER.map(id=>[id,1])), done:{}, tk:{}, xp:{}, buddy:null, so:{}, sw:'ggm', intro:false, snd:false });
 let S = fresh();
 const load = () => { try { const t = localStorage.getItem(LS); if (t) S = Object.assign(fresh(), JSON.parse(t)); } catch(e){} };
 const save = () => { if(GV) return; try { localStorage.setItem(LS, JSON.stringify(S)); } catch(e){} };
@@ -436,7 +442,7 @@ function gvKey(m){
     <div class="gtkl"><span class="lb gt">GT</span><ul>${m.gt.map(t=>`<li>${esc(t)}</li>`).join('')}</ul><span class="lb kl">KL</span><ul><li>${esc(m.kl)}</li></ul></div>
     <div class="eyebrow">Bước 2 · Nạp / loại thẻ</div>
     <ol class="gvl">${m.inputs.map(x=>`<li><b class="${x.keep?'k':'x'}">${x.keep?'✓ NẠP':'✗ LOẠI'}</b> ${(x.code||'').split(/\s*,\s*/).filter(Boolean).map(badge).join('')} ${esc(x.text)}${!x.keep&&x.why?`<br><span class="muted">Loại vì: ${esc(x.why)}</span>`:''}</li>`).join('')}</ol>
-    <div class="eyebrow">Bước 3 · Chuỗi chứng minh mẫu</div>
+    <div class="eyebrow">Bước 3 · Chuỗi chứng minh gợi ý (một trong các hướng làm)</div>
     <ol class="gvl">${m.steps.map(s=>`<li><span class="math">${esc(s.cm)}</span><br><span class="muted">Lý do: ${esc(s.ld)}</span> ${s.codes.map(badge).join('')}</li>`).join('')}</ol>
     ${d?`<div class="eyebrow">Bước 4 · Các hướng</div><ol class="gvl">${d.huong.map(x=>`<li><b>${esc(x.ten)}</b> – <span class="kq ${x.kq}">${{tac:'BẾ TẮC',dai:'DÀI',duoc:'ĐI ĐƯỢC'}[x.kq]}</span><br><span class="muted">${x.y.map(esc).join(' · ')}</span></li>`).join('')}</ol>`:''}
     <div class="qa"><div class="r"><span class="lab">NHÌN LẠI</span><span><span class="q">${esc(m.nhin)}</span><br><span class="a">${esc(m.nhinDap)}</span></span></div></div>
@@ -514,12 +520,12 @@ const needCards = m => [...new Set(m.steps.flatMap(s=>s.codes))];
 // ---------- màn hình chính
 let VIEW = { v:'map' };
 function go(v){ VIEW=v; render(); window.scrollTo(0,0); }
-function render(){ hud(); dStop(); const a=$('#app'); ({map:vMap, zone:vZone, cards:vCards, mis:vMis, design:vDesign}[VIEW.v]||vMap)(a); }
+function render(){ hud(); dStop(); const a=$('#app'); ({map:vMap, zone:vZone, cards:vCards, mis:vMis, design:vDesign, so:vSo}[VIEW.v]||vMap)(a); }
 function vMap(a){
   const tot=G.missions.length, fixed=Object.keys(S.done).length;
   const next=!trained()?'Bắt đầu ở <b>Phòng Mô Phỏng</b>: bấm vào mũi tàu (nhãn <b>Mô phỏng</b>). <b>Xưởng Thiết Kế</b> (máy chiếu hologram ở đuôi tàu) mở sẵn để bạn luyện dựng hình.':fixed===tot?'Cả 42 mô-đun đã chạy. Tàu sẵn sàng tiếp tục hành trình!':'Bộ phận nháy đỏ, toé lửa là khoang còn hỏng – kéo để xoay tàu. Thẻ huyền thoại ở <b>Phòng Tách Lớp</b> giúp mở các khoang khó. Muốn vẽ hình cho chuẩn? Ghé <b>Xưởng Thiết Kế</b>.';
   a.innerHTML = `
-  <div class="row" style="margin-top:8px"><div><div class="eyebrow">Nhật ký sửa chữa · năm 2187</div><h1 style="font-size:clamp(24px,4vw,36px)">Khởi động lại Lõi Suy Luận</h1></div><span class="sp"></span><button class="btn sm" id="bStory">Xem lại cốt truyện</button></div>
+  <div class="row" style="margin-top:8px"><div><div class="eyebrow">Nhật ký sửa chữa · năm 2187</div><h1 style="font-size:clamp(24px,4vw,36px)">Khởi động lại Lõi Suy Luận</h1></div><span class="sp"></span><button class="btn sm amb" id="bSo">Sổ cách giải (${soCount()})</button><button class="btn sm" id="bStory">Xem lại cốt truyện</button></div>
   <div class="bar" style="max-width:420px;margin-top:8px"><i style="width:${fixed/tot*100}%"></i></div>
   <p class="muted" style="margin:4px 0 0;font-size:13px">${fixed}/${tot} mô-đun đã hoạt động</p>
   <div class="ship" style="margin-top:12px"><div class="ship3d" id="ship3d"></div></div>
@@ -534,6 +540,7 @@ function vMap(a){
     const el=$('#ship3d'); if(!(window.SHIP3D&&SHIP3D.mount(el, st, pick))){ el.className=''; el.innerHTML=shipSVG(); } }
   a.querySelectorAll('.zone').forEach(g=>{ g.onclick=()=>openZone(g.dataset.k); });
   $('#bStory').onclick=()=>story(0);
+  $('#bSo').onclick=()=>go({v:'so'});
   const bu=$('#buddy'); if(bu) bu.onclick=()=>{ petPop(buddyId(), bu, 'Chào kỹ sư!'); sOk(); setTimeout(()=>showCard(buddyId()),600); };
 }
 function shipSVG(){
@@ -734,7 +741,7 @@ function vMis(a){
     <div class="holo"><div class="eyebrow">${m.loai==='lab'?'Ví dụ mẫu '+m.so:m.loai==='train'?'Mô phỏng':'Mô-đun'} · Bài ${m.id}</div>
       <img src="${m.hinh}" alt="Hình vẽ bài ${m.id}" loading="lazy">
       <div class="de">${deHTML}</div></div>
-    <div class="machine" id="mc"></div>
+    <div class="machine"><div class="gvnote">Chuỗi chứng minh trong máy chỉ là <b>một trong các hướng làm gợi ý</b>. Em có cách khác thì ưu tiên <b>lưu lại cách của em</b> vào Sổ cách giải.</div><div id="mc"></div></div>
   </div>`;
   $('#back').onclick=()=>{ M=null; go({v:'zone', z: m.loai==='lab'?'lab':m.loai==='train'?'train':'ch'+m.ch}); };
   const gk=$('#gvk'); if(gk) gk.onclick=()=>gvKey(m);
@@ -782,12 +789,12 @@ function mStep3(el){
   const m=M.m;
   M.mode=M.mode||'mau';
   const modeBar=`<div class="modes" role="tablist">
-      <button role="tab" aria-selected="${M.mode==='mau'}" class="${M.mode==='mau'?'on':''}" data-mode="mau">Lắp theo chuỗi mẫu</button>
+      <button role="tab" aria-selected="${M.mode==='mau'}" class="${M.mode==='mau'?'on':''}" data-mode="mau">Lắp theo hướng gợi ý</button>
       <button role="tab" aria-selected="${M.mode==='em'}" class="${M.mode==='em'?'on':''}" data-mode="em">Cách của em</button></div>`;
   if(M.mode==='em') return mStep3Em(el, modeBar);
   const st=m.steps, done=M.cur>=st.length;
   el.innerHTML=`${heatHTML()}<h3>Bước 3 · Lắp ráp chuỗi chứng minh</h3>${modeBar}
-    ${say(done?'Chuỗi đã liền mạch. Sang bước kiểm định!':'Khâu đang sáng cần thẻ lý do. Chọn thẻ ở khay bên dưới để gắn vào ổ cắm. Khâu không có ổ cắm là liên kết suy luận, máy tự nối.<br><span class="note">Lưu ý: bài có thể giải theo cách khác. Nếu em làm khác chuỗi mẫu, chọn <b>Cách của em</b> để tự gõ chuỗi chứng minh.</span>')}
+    ${say(done?'Chuỗi đã liền mạch. Sang bước kiểm định!':'Khâu đang sáng cần thẻ lý do. Chọn thẻ ở khay bên dưới để gắn vào ổ cắm. Khâu không có ổ cắm là liên kết suy luận, máy tự nối.<br><span class="note">Lưu ý: đây chỉ là một trong các hướng làm gợi ý. Nếu em làm khác, chọn <b>Cách của em</b> để gõ và lưu lại chuỗi chứng minh của mình.</span>')}
     <div class="line">${st.map((s,i)=>{ const ok=i<M.cur, cur=i===M.cur;
       return `<div class="st ${ok?'ok':''} ${cur?'cur':''}"><span class="n">${i+1}</span><div><div class="cm">${esc(s.cm)}</div>
         ${ok||cur?`<div class="sockets">${s.codes.map(c=>{ const f=M.filled[i].includes(c); return `<span class="sock ${f?'f':''}" style="${f?cvar(CARD[c]):''}">${f?c:'?'}</span>`; }).join('')||'<span class="muted" style="font-size:12px">liên kết suy luận</span>'}</div>`:''}
@@ -811,7 +818,28 @@ const KEYS=[
 function altInit(){
   if(!M.alt){ const saved=(S.alt||{})[M.id]; M.alt=saved?JSON.parse(JSON.stringify(saved)):{ lines:[{cm:'',ld:'',cards:[]},{cm:'',ld:'',cards:[]},{cm:M.m.kl,ld:'',cards:[]}], sent:false, self:null }; M.alt.focus=M.alt.focus||{i:0,f:'cm'}; }
 }
-function altSave(){ S.alt=S.alt||{}; S.alt[M.id]={ lines:M.alt.lines, sent:M.alt.sent, self:M.alt.self }; save(); }
+function altSave(){ S.alt=S.alt||{}; S.alt[M.id]={ lines:M.alt.lines, sent:M.alt.sent, self:M.alt.self, saved:!!M.alt.saved }; save(); }
+// ---------- Sổ cách giải của học sinh
+function soAdd(id, A){ S.so=S.so||{}; (S.so[id]=S.so[id]||[]).push({ lines:A.lines.map(x=>({cm:x.cm, ld:x.ld, cards:x.cards.slice()})), self:A.self||null, t:Date.now() }); save(); }
+const soCount = () => Object.values(S.so||{}).reduce((n,a)=>n+a.length,0);
+const soText = (id,e,k) => 'Bài '+id+' – cách '+(k+1)+' của em\n'+e.lines.map((x,i)=>(i+1)+'. '+x.cm+'  |  '+[x.cards.join(', '),x.ld].filter(Boolean).join('; ')).join('\n');
+function vSo(a){
+  const ids=Object.keys(S.so||{}).filter(id=>(S.so[id]||[]).length&&MIS[id]).sort((x,y)=>G.missions.indexOf(MIS[x])-G.missions.indexOf(MIS[y]));
+  a.innerHTML=`<div class="row" style="margin-top:8px"><button class="btn sm" id="back">← Sơ đồ tàu</button><span class="sp"></span><span class="muted">${soCount()} cách đã lưu</span></div>
+  <h2 style="font-size:28px;margin-top:10px">Sổ cách giải của em</h2>
+  <div class="gvnote">${'Chuỗi chứng minh trong máy chỉ là <b>một trong các hướng làm gợi ý</b>. Em có cách khác thì ưu tiên <b>lưu lại cách của em</b> vào Sổ cách giải.'}</div>
+  ${ids.length?ids.map(id=>{ const m=MIS[id]; return `<section class="sobai"><div class="eyebrow">Bài ${id} · ${esc(m.truong)}</div><h3 style="margin:2px 0 8px">${esc(m.kl)}</h3>
+    ${S.so[id].map((e,k)=>`<div class="soe"><div class="row"><b>Cách ${k+1}</b><span class="muted" style="font-size:12.5px">${new Date(e.t).toLocaleDateString('vi-VN')}${e.self==='dung'?' · em tự kiểm tra: đúng':e.self==='sua'?' · cần sửa lại':''}</span><span class="sp"></span><button class="btn sm" data-cp="${id}:${k}">Chép</button><button class="btn sm" data-rm="${id}:${k}">Xoá</button></div>
+      <ol>${e.lines.map(x=>`<li><span class="math">${esc(x.cm)}</span><br><span class="muted">Lý do: ${esc(x.ld)}</span> ${x.cards.map(badge).join('')}</li>`).join('')}</ol></div>`).join('')}
+    <div class="row"><span class="sp"></span><button class="btn sm" data-go="${id}">Mở bài ${id}</button></div></section>`; }).join('')
+   :`<div class="sobai">${say('Sổ còn trống. Khi lắp ráp, chọn <b>Cách của em</b> ở bước 3, gõ chuỗi chứng minh của mình rồi bấm <b>Lưu vào Sổ cách giải</b>. Mỗi bài lưu được nhiều cách.')}</div>`}
+  <textarea id="cptxt" hidden readonly rows="5" style="width:100%"></textarea>`;
+  $('#back').onclick=()=>go({v:'map'});
+  a.querySelectorAll('[data-cp]').forEach(b=>b.onclick=()=>{ const [id,k]=b.dataset.cp.split(':'); const t=soText(id,S.so[id][+k],+k); const done=()=>toast('Đã chép – dán gửi giáo viên'); try{ navigator.clipboard.writeText(t).then(done,()=>{ $('#cptxt').hidden=false; $('#cptxt').value=t; $('#cptxt').select(); }); }catch(e){ $('#cptxt').hidden=false; $('#cptxt').value=t; } });
+  a.querySelectorAll('[data-rm]').forEach(b=>b.onclick=()=>{ const [id,k]=b.dataset.rm.split(':'); if(!confirmRm(b)) return; S.so[id].splice(+k,1); if(!S.so[id].length) delete S.so[id]; save(); render(); });
+  a.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{ if(misOpen(b.dataset.go)) startMission(b.dataset.go); else toast('Bài này chưa mở'); });
+}
+function confirmRm(b){ if(b.dataset.sure) return true; b.dataset.sure=1; b.textContent='Bấm lần nữa để xoá'; b.classList.add('amb'); setTimeout(()=>{ if(b.isConnected){ delete b.dataset.sure; b.textContent='Xoá'; b.classList.remove('amb'); } },2500); return false; }
 function mStep3Em(el, modeBar){
   altInit(); const A=M.alt, m=M.m;
   el.innerHTML=`${heatHTML()}<h3>Bước 3 · Cách của em</h3>${modeBar}
@@ -850,6 +878,8 @@ function mStep3Em(el, modeBar){
     A.lines=L; A.sent=true; A.err=null; altSave(); sOk(); render(); };
   el.querySelectorAll('[data-self]').forEach(b=>b.onclick=()=>{ A.self=b.dataset.self; altSave();
     if(A.self==='sua'){ A.sent=false; altSave(); toast('Mở lại để sửa'); } else { M.altDone=true; sOk(); } render(); });
+  const sv=$('#sosave'); if(sv) sv.onclick=()=>{ soAdd(M.id, A); A.saved=true; altSave(); sOk(); toast('Đã lưu vào Sổ cách giải'); render(); };
+  const ag=$('#again'); if(ag) ag.onclick=()=>{ M.alt=null; if(S.alt) delete S.alt[M.id]; save(); altInit(); render(); };
   const cp=$('#copy'); if(cp) cp.onclick=()=>{ const txt='Bài '+M.id+' – cách của em\n'+A.lines.map((x,i)=>(i+1)+'. '+x.cm+'  |  '+[x.cards.join(', '),x.ld].filter(Boolean).join('; ')).join('\n');
     const done=()=>toast('Đã chép – dán gửi giáo viên'); try{ navigator.clipboard.writeText(txt).then(done,()=>{ $('#cptxt').hidden=false; $('#cptxt').select(); }); }catch(e){ $('#cptxt').hidden=false; } $('#cptxt').value=txt; };
   keep();
@@ -858,12 +888,13 @@ function altReview(){
   const m=M.m, A=M.alt;
   const used=new Set(A.lines.flatMap(x=>x.cards)), mau=new Set(m.steps.flatMap(s=>s.codes));
   const chung=[...used].filter(c=>mau.has(c));
-  return `${say('Máy không tự chấm được cách làm khác. Em hãy <b>đối chiếu</b> với chuỗi mẫu bên dưới và tự kiểm tra theo ba câu hỏi, rồi chọn kết quả. Có thể chép chuỗi của em để gửi giáo viên.')}
+  return `${say('Máy không tự chấm được cách làm khác. Em hãy <b>đối chiếu</b> với chuỗi gợi ý bên dưới và tự kiểm tra theo ba câu hỏi, rồi chọn kết quả. Có thể chép chuỗi của em để gửi giáo viên.')}
     <div class="qa"><div class="r"><span class="lab">TỰ KIỂM TRA</span><span>• Mỗi dòng chỉ dùng giả thiết và các dòng trước?<br>• Mỗi lý do là một định nghĩa, tính chất có thật (không dùng dấu hiệu chỉ đọc thêm như thẻ N2)?<br>• Dòng cuối đúng là kết luận, không dùng chính điều phải chứng minh?</span></div>
-    <div class="r"><span class="lab">SO VỚI MẪU</span><span>Em dùng ${used.size} thẻ, trong đó ${chung.length} thẻ trùng chuỗi mẫu${chung.length?': '+chung.map(badge).join(''):''}.</span></div></div>
-    <details class="mau"><summary>Xem chuỗi mẫu (${m.steps.length} dòng)</summary><ol>${m.steps.map(s=>`<li><span class="math">${esc(s.cm)}</span> <span class="muted">— ${esc(s.ld)}</span> ${s.codes.map(badge).join('')}</li>`).join('')}</ol></details>
+    <div class="r"><span class="lab">SO VỚI MẪU</span><span>Em dùng ${used.size} thẻ, trong đó ${chung.length} thẻ trùng chuỗi gợi ý${chung.length?': '+chung.map(badge).join(''):''}.</span></div></div>
+    <details class="mau"><summary>Xem chuỗi gợi ý (${m.steps.length} dòng)</summary><ol>${m.steps.map(s=>`<li><span class="math">${esc(s.cm)}</span> <span class="muted">— ${esc(s.ld)}</span> ${s.codes.map(badge).join('')}</li>`).join('')}</ol></details>
     <textarea id="cptxt" hidden readonly rows="4" style="width:100%"></textarea>
     <div class="row"><button class="btn sm" id="copy">Chép chuỗi của em</button><span class="sp"></span>
+      ${A.saved?'<span class="tag done">✓ Đã lưu vào Sổ cách giải</span><button class="btn sm" id="again">+ Làm thêm cách khác</button>':'<button class="btn sm amb" id="sosave">Lưu vào Sổ cách giải</button>'}
       ${M.altDone?`<button class="btn pri" id="nx">Kiểm định →</button>`:`<button class="btn sm" data-self="sua">Cần sửa lại</button><button class="btn amb" data-self="dung">Cách của em đúng</button>`}</div>`;
 }
 function plug(id, btn){
@@ -904,9 +935,11 @@ function finish(){
     ${m.layer?`<div class="eyebrow">Máy quét tách lớp</div><div class="scan"><img src="${m.layer.fig}" alt="Tách lớp hình bài ${m.id}"></div><p class="muted" style="margin:0;font-size:13px">${esc(m.layer.cap)}</p>${say(esc(m.layer.rut))}`:''}
     ${newB.length?`<div class="eyebrow">Bản thiết kế huyền thoại</div><div class="pack">${newB.map(id=>cardHTML(CARD[id],{noCount:true})).join('')}</div>`:''}
     ${!m.layer&&boostOwned.length?say('Linh kiện này dùng cấu trúc của '+boostOwned.map(badge).join(' ')+' – bản thiết kế bạn đã có.'):''}
+    ${(S.so&&S.so[m.id]&&S.so[m.id].length)?say('Em đã lưu '+S.so[m.id].length+' cách của mình cho bài này trong Sổ cách giải.'):`<div class="gvnote">Đây chỉ là một trong các hướng làm gợi ý. Em còn cách khác? <button class="btn sm amb" id="myway">Ghi cách của em</button></div>`}
     ${Object.keys(S.done).length===G.missions.length?say('Cả 42 mô-đun đã chạy. Lõi Suy Luận khởi động lại – ORTHOS tiếp tục hành trình. Cảm ơn kỹ sư!'):''}
     <div class="row"><span class="sp"></span><button class="btn pri" id="ok">Về khoang</button></div>`, !!m.layer);
   $('#ok').onclick=()=>{ closeOv(); const z=m.loai==='lab'?'lab':m.loai==='train'?'train':'ch'+m.ch; M=null; go({v:'zone', z}); };
+  const mw=$('#myway'); if(mw) mw.onclick=()=>{ closeOv(); M.step=3; M.mode='em'; M.altDone=false; render(); };
 }
 
 // ---------- khởi động
