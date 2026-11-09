@@ -88,12 +88,7 @@ window.SHIP3D = (function () {
         E.add(mesh(new T.CylinderGeometry(r * 1.18, r * 1.18, 0.16, 12), M.dark, [-3.6, y, z], [0, 0, Math.PI / 2]));
         E.add(mesh(new T.TorusGeometry(r * 1.05, 0.05, 8, 20), a, [-4.76, y, z], [0, Math.PI / 2, 0]));
         E.add(mesh(new T.CircleGeometry(r * 0.9, 20), a, [-4.77, y, z], [0, -Math.PI / 2, 0]));
-        const f1 = new T.MeshBasicMaterial({ color: 0xff8a3d, transparent: true, opacity: 0.75, blending: T.AdditiveBlending, depthWrite: false, toneMapped: false });
-        const f2 = new T.MeshBasicMaterial({ color: 0xfff2c0, transparent: true, opacity: 0.9, blending: T.AdditiveBlending, depthWrite: false, toneMapped: false });
-        const c1 = mesh(new T.ConeGeometry(r * 0.85, 2.4, 16, 1, true), f1, [-4.78 - 1.2, y, z], [0, 0, Math.PI / 2]);
-        const c2 = mesh(new T.ConeGeometry(r * 0.45, 1.2, 12, 1, true), f2, [-4.78 - 0.6, y, z], [0, 0, Math.PI / 2]);
-        [c1, c2].forEach(c => { c.userData.flame = 1; c.raycast = () => {}; });
-        E.add(c1, c2); flames.push({ c1, c2, r, y, z, f1 });
+        const fl = new T.Group(); fl.position.set(-4.78, y, z); E.add(fl); addFlame(fl, r);
       });
       Z.ch1.anchor.set(-4.4, 0.9, 0.3);
     }
@@ -155,20 +150,40 @@ window.SHIP3D = (function () {
       const G = Z.tk.g, a = acc('tk');
       G.add(mesh(new T.CylinderGeometry(0.2, 0.28, 0.16, 10), M.plate, [-3.2, 1.06, 0]));
       G.add(mesh(new T.TorusGeometry(0.2, 0.035, 6, 20), a, [-3.2, 1.15, 0], [Math.PI / 2, 0, 0]));
-      const hm = new T.MeshBasicMaterial({ color: 0x6fe3f5, transparent: true, opacity: 0.12, blending: T.AdditiveBlending, depthWrite: false, side: T.DoubleSide, toneMapped: false });
-      const beam = mesh(new T.ConeGeometry(0.62, 0.75, 20, 1, true), hm, [-3.2, 1.55, 0], [Math.PI, 0, 0]); beam.raycast = () => {}; G.add(beam); Z.tk.beam = hm;
-      const holo = new T.Group(); holo.position.set(-3.2, 1.98, 0); holo.scale.setScalar(1.25); G.add(holo);
-      const lm = new T.LineBasicMaterial({ color: 0x6fe3f5, transparent: true, opacity: 0.95, toneMapped: false }); Z.tk.lines = lm;
-      const circ = []; for (let i = 0; i <= 48; i++) { const t = i / 48 * Math.PI * 2; circ.push(new T.Vector3(Math.cos(t) * 0.42, Math.sin(t) * 0.42, 0)); }
-      holo.add(new T.Line(new T.BufferGeometry().setFromPoints(circ), lm));
-      const A = new T.Vector3(-0.42, 0, 0), B = new T.Vector3(0.42, 0, 0), C = new T.Vector3(Math.cos(1.1) * 0.42, Math.sin(1.1) * 0.42, 0), H = new T.Vector3(C.x, 0, 0);
-      holo.add(new T.LineLoop(new T.BufferGeometry().setFromPoints([A, B, C]), lm));
-      holo.add(new T.LineSegments(new T.BufferGeometry().setFromPoints([C, H]), new T.LineDashedMaterial({ color: 0xffb547, dashSize: 0.04, gapSize: 0.03, toneMapped: false })).computeLineDistances());
-      [A, B, C, H].forEach(p => holo.add(mesh(new T.SphereGeometry(0.03, 6, 4), a, [p.x, p.y, p.z])));
-      holo.add(mesh(new T.BoxGeometry(0.95, 0.95, 0.002), hm, [0, 0, -0.01]));
-      spin.push({ o: holo, ax: 'y', v: 0.9 });
+      const hm = holoMat();
+      const beam = mesh(new T.ConeGeometry(0.62, 0.75, 20, 1, true), hm, [-3.2, 1.55, 0], [Math.PI, 0, 0]); beam.raycast = () => {}; G.add(beam);
+      const hp = new T.Group(); hp.position.set(-3.2, 1.98, 0); G.add(hp); addHolo(hp, hm);
       Z.tk.anchor.set(-3.75, 1.98, 0);
     }
+    finish();
+  }
+
+  // ---------- phần dùng chung cho tàu vẽ bằng code và tàu từ Blender
+  const holoMat = () => new T.MeshBasicMaterial({ color: 0x6fe3f5, transparent: true, opacity: 0.12, blending: T.AdditiveBlending, depthWrite: false, side: T.DoubleSide, toneMapped: false });
+  // lửa động cơ: gắn vào điểm par (miệng ống phụt), phun về phía -x
+  function addFlame(par, r) {
+    const f1 = new T.MeshBasicMaterial({ color: 0xff8a3d, transparent: true, opacity: 0.75, blending: T.AdditiveBlending, depthWrite: false, toneMapped: false });
+    const f2 = new T.MeshBasicMaterial({ color: 0xfff2c0, transparent: true, opacity: 0.9, blending: T.AdditiveBlending, depthWrite: false, toneMapped: false });
+    const c1 = mesh(new T.ConeGeometry(r * 0.85, 2.4, 16, 1, true), f1, [-1.2, 0, 0], [0, 0, Math.PI / 2]);
+    const c2 = mesh(new T.ConeGeometry(r * 0.45, 1.2, 12, 1, true), f2, [-0.6, 0, 0], [0, 0, Math.PI / 2]);
+    [c1, c2].forEach(c => { c.userData.flame = 1; c.raycast = () => {}; });
+    par.add(c1, c2); flames.push({ c1, c2, f1 });
+  }
+  // bản vẽ hologram (đường tròn, tam giác, đường cao) quay trên máy chiếu Xưởng Thiết Kế
+  function addHolo(par, hm) {
+    const a = acc('tk'), holo = new T.Group(); holo.scale.setScalar(1.25); par.add(holo);
+    const lm = new T.LineBasicMaterial({ color: 0x6fe3f5, transparent: true, opacity: 0.95, toneMapped: false });
+    const circ = []; for (let i = 0; i <= 48; i++) { const t = i / 48 * Math.PI * 2; circ.push(new T.Vector3(Math.cos(t) * 0.42, Math.sin(t) * 0.42, 0)); }
+    holo.add(new T.Line(new T.BufferGeometry().setFromPoints(circ), lm));
+    const A = new T.Vector3(-0.42, 0, 0), B = new T.Vector3(0.42, 0, 0), C = new T.Vector3(Math.cos(1.1) * 0.42, Math.sin(1.1) * 0.42, 0), H = new T.Vector3(C.x, 0, 0);
+    holo.add(new T.LineLoop(new T.BufferGeometry().setFromPoints([A, B, C]), lm));
+    holo.add(new T.LineSegments(new T.BufferGeometry().setFromPoints([C, H]), new T.LineDashedMaterial({ color: 0xffb547, dashSize: 0.04, gapSize: 0.03, toneMapped: false })).computeLineDistances());
+    [A, B, C, H].forEach(p => holo.add(mesh(new T.SphereGeometry(0.03, 6, 4), a, [p.x, p.y, p.z])));
+    holo.add(mesh(new T.BoxGeometry(0.95, 0.95, 0.002), hm, [0, 0, -0.01]));
+    holo.traverse(o => { o.raycast = () => {}; });
+    spin.push({ o: holo, ax: 'y', v: 0.9 });
+  }
+  function finish() {
     Object.keys(Z).forEach(k => Z[k].g.traverse(o => { o.userData.k = k; }));
     // tia lửa cho khoang hỏng
     Object.keys(Z).forEach(k => {
@@ -178,6 +193,45 @@ window.SHIP3D = (function () {
     });
     ship.position.set(0.3, 0, 0);
     scene.add(ship);
+  }
+
+  // ---------- tàu dựng trong Blender: models/orthos.glb (xem blender/orthos_ship.py)
+  // Tải không được (mở file trực tiếp, mất mạng, file lỗi) thì giữ nguyên tàu vẽ bằng code ở trên.
+  const KEYS = ['train', 'ch1', 'ch2', 'ch3', 'ch4', 'ch5', 'lab', 'tk'];
+  function loadGLB() {
+    if (!T.GLTFLoader || location.protocol === 'file:') return;
+    const L = new T.GLTFLoader();
+    if (T.DRACOLoader) { const d = new T.DRACOLoader(); d.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.6/'); L.setDRACOLoader(d); }
+    L.load('models/orthos.glb', g => { try { useGLB(g.scene); } catch (e) { console.warn('Tinh hạm: không dùng được orthos.glb –', e); } }, undefined, () => {});
+  }
+  function useGLB(root) {
+    const zones = {}; root.traverse(o => { if (o.userData.zone) zones[o.userData.zone] = o; });
+    const miss = KEYS.filter(k => !zones[k]); if (miss.length) throw 'thiếu khoang ' + miss.join(', ');
+    // vật liệu theo tên đặt trong Blender; bản mịn (không flatShading) vì Blender đã tính pháp tuyến
+    const SM = {}; Object.keys(M).forEach(n => { SM[n] = M[n].clone(); SM[n].flatShading = false; });
+    SM.win = new T.MeshBasicMaterial({ color: 0xffd9a0, toneMapped: false });
+    const keep = {}; KEYS.forEach(k => { keep[k] = Z[k] ? Z[k].st : 'off'; });
+    scene.remove(ship); Object.keys(Z).forEach(k => delete Z[k]); flames = []; spin = [];
+    KEYS.forEach(k => { Z[k] = { g: zones[k], acc: [], anchor: new T.Vector3(), st: keep[k] }; });
+    ship = new T.Group(); ship.add(root); root.updateMatrixWorld(true);
+    const zoneOf = o => { for (let p = o; p; p = p.parent) if (p.userData.zone) return p.userData.zone; return null; };
+    const all = []; root.traverse(o => all.push(o));
+    let hm = null;
+    all.forEach(o => {
+      const u = o.userData, k = zoneOf(o);
+      if (o.isMesh) {
+        const n = o.material.name;
+        if (n === 'acc' && k) o.material = acc(k);
+        else if (n === 'holo') { o.material = hm || (hm = holoMat()); o.raycast = () => {}; }
+        else if (SM[n]) o.material = SM[n];
+        else o.material.side = T.DoubleSide;   // vật liệu mới tự đặt trong Blender: giữ nguyên màu
+      }
+      if (u.anchor && Z[u.anchor]) o.getWorldPosition(Z[u.anchor].anchor);
+      if (u.spin_ax) spin.push({ o, ax: u.spin_ax, v: +u.spin_v || 0.5 });
+      if (u.flame_r) addFlame(o, +u.flame_r);
+      if (u.holo) addHolo(o, hm || (hm = holoMat()));
+    });
+    finish();
   }
 
   function init() {
@@ -207,6 +261,7 @@ window.SHIP3D = (function () {
     stars = new T.Points(sg, new T.PointsMaterial({ color: 0xdfe8ff, size: 0.35, sizeAttenuation: true, transparent: true, opacity: 0.9 })); scene.add(stars);
     const tex = (() => { const c = document.createElement('canvas'); c.width = c.height = 128; const x = c.getContext('2d'), g = x.createRadialGradient(64, 64, 0, 64, 64, 64); g.addColorStop(0, 'rgba(255,255,255,1)'); g.addColorStop(1, 'rgba(255,255,255,0)'); x.fillStyle = g; x.fillRect(0, 0, 128, 128); return new T.CanvasTexture(c); })();
     build();
+    loadGLB();
     return true;
   }
 
@@ -233,7 +288,7 @@ window.SHIP3D = (function () {
     const e = Z.ch1.st;
     flames.forEach(f => { const on = e !== 'off', p = e === 'ok' ? 1 : 0.35, j = 0.85 + Math.random() * 0.3; f.c1.visible = f.c2.visible = on && !(e === 'bad' && Math.random() < 0.3);
       f.c1.scale.set(1, p * j, 1); f.c2.scale.set(1, p * (0.8 + Math.random() * 0.4), 1);
-      f.c1.position.x = -4.78 - 1.2 * p * j; f.c2.position.x = -4.78 - 0.6 * p; f.f1.color.setHex(e === 'ok' ? 0xff8a3d : 0xff3a3a); });
+      f.c1.position.x = -1.2 * p * j; f.c2.position.x = -0.6 * p; f.f1.color.setHex(e === 'ok' ? 0xff8a3d : 0xff3a3a); });
   }
   function size(w, h) {
     R.setSize(w, h, false); cam.aspect = w / h;
